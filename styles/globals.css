@@ -1,0 +1,461 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+:root {
+  --header-height: 72px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --header-height: 88px;
+  }
+}
+html, body, #__next {
+  height: 100%;
+}
+
+/* Layout Typography */
+body {
+  background-color: #F9F5F1;
+  color: #1A1A1A;
+  -webkit-font-smoothing: antialiased;
+}
+
+.text-balance {
+  text-wrap: balance;
+}
+
+/* Material Design transition for header */
+.transition-header {
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Navigation fade in animation */
+@keyframes fadeInNav {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.nav-fade-in {
+  /* Animation désactivée - le header ne se remonte plus à chaque navigation */
+  /* animation: fadeInNav 1s ease-out; */
+}
+
+/* Smooth hover transitions for cards - GPU composited */
+.hover-lift {
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.hover-lift:hover {
+  transform: translateY(-5px);
+  filter: drop-shadow(0 25px 25px rgba(0, 0, 0, 0.1));
+}
+
+/* Example: customize container padding at different breakpoints */
+.container {
+  @apply mx-auto px-4;
+}
+
+/* Custom scrollbar hiding */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Hero Section Styles - GPU composited only */
+.product-card {
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), 
+              opacity 0.5s ease;
+  position: relative;
+  filter: drop-shadow(0 10px 15px rgba(0, 0, 0, 0.1));
+}
+
+.product-card:hover {
+  transform: translateY(-8px) rotate(1deg) scale(1.02);
+  filter: drop-shadow(0 20px 40px rgba(226, 54, 106, 0.25));
+  z-index: 10;
+}
+
+/* Combinaison product-card + shine-effect - Reflet synchronisé */
+.product-card.shine-effect {
+  position: relative;
+}
+
+.product-card.shine-effect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 15%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.2) 85%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(-15deg);
+  filter: blur(30px);
+  transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 15;
+  pointer-events: none;
+  will-change: transform, opacity;
+  opacity: 0;
+  border-radius: inherit;
+}
+
+/* Hover - GPU-composited animation */
+.product-card.shine-effect:hover::before {
+  transform: translateX(100%) skewX(-15deg);
+  opacity: 1;
+}
+
+/* Glow effect au hover pour plus de profondeur */
+.product-card.shine-effect::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(226, 54, 106, 0.1) 0%, transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 8;
+  border-radius: inherit;
+}
+
+.product-card.shine-effect:hover::after {
+  opacity: 1;
+}
+
+.cta-3d {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s ease;
+}
+
+.cta-3d:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 15px 30px -5px rgba(226, 54, 106, 0.4);
+}
+
+.cta-3d:active {
+  transform: scale(0.98);
+}
+
+.fluid-shape {
+  border-radius: 40% 60% 70% 30% / 40% 50% 60% 50%;
+  /* Static border-radius — animation removed to avoid layout thrashing.
+     The organic shape effect is maintained via the static value. */
+}
+
+.marquee-container {
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+
+.dark-section {
+  background-color: #211116;
+  color: #f8f6f6;
+}
+
+.light-section {
+  background-color: #f8f6f6;
+  color: #211116;
+}
+
+/* ============================================================
+   SHINE EFFECT - Reflet glissant sur hover (AMÉLIORÉ)
+   ============================================================ */
+
+.shine-effect {
+  --shine-color: rgba(255, 255, 255, 0.6);
+  --shine-duration: 0.5s;
+  --shine-skew: -15deg;
+  --shine-width: 100%;
+  --shine-blur: 30px;
+}
+
+/* Shine pseudo-element - GPU COMPOSITED */
+.shine-effect::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.8) 15%,
+    rgba(255, 255, 255, 0.6) 50%,
+    rgba(255, 255, 255, 0.2) 85%,
+    transparent 100%
+  );
+  transform: translateX(-100%) skewX(var(--shine-skew, -15deg));
+  filter: blur(var(--shine-blur, 30px));
+  transition: transform var(--shine-duration, 0.5s) cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity var(--shine-duration, 0.5s) cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 15;
+  pointer-events: none;
+  will-change: transform, opacity;
+  opacity: 0;
+  border-radius: inherit;
+}
+
+/* Hover state - GPU-only animation */
+.shine-effect:hover::before {
+  transform: translateX(100%) skewX(var(--shine-skew, -15deg));
+  opacity: 1;
+}
+
+/* Variante subtle */
+.shine-subtle {
+  --shine-color: rgba(255, 255, 255, 0.25);
+  --shine-duration: 0.8s;
+  --shine-skew: -10deg;
+  --shine-width: 50%;
+  --shine-blur: 40px;
+}
+
+/* Variante strong - Ultra visible */
+.shine-strong {
+  --shine-color: rgba(255, 255, 255, 0.9);
+  --shine-duration: 0.35s;
+  --shine-skew: -20deg;
+  --shine-width: 120%;
+  --shine-blur: 15px;
+}
+
+.shine-strong::before {
+  box-shadow: inset 0 0 30px rgba(255, 255, 255, 0.4);
+}
+
+/* Mobile: version light de l'effet */
+@media (max-width: 480px) {
+  .shine-effect {
+    --shine-color: rgba(255, 255, 255, 0.2);
+    --shine-duration: 1s;
+    --shine-blur: 50px;
+  }
+}
+
+/* Accessibility: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .shine-effect::before {
+    display: none;
+  }
+}
+
+/* ============================================================
+   FADE-UP ANIMATIONS WITH SCROLL TIMELINE
+   Mobile-first animations using CSS only (no JavaScript)
+   ============================================================ */
+
+/* Define the fade-up keyframes */
+@keyframes fadeUpAnimation {
+  from {
+    opacity: 0;
+    transform: translateY(5rem) scale(0.5);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Base fade-up class with scroll-linked animation */
+.animate-fade-up {
+  animation: fadeUpAnimation linear ;
+  animation-timeline: view();
+  animation-range: entry 0% cover 40%;
+}
+
+/* Staggered delays for multiple elements */
+.animate-fade-up-delay-1 {
+  animation: fadeUpAnimation linear forwards;
+  animation-timeline: view();
+  animation-range: entry 5% cover 35%;
+}
+
+.animate-fade-up-delay-2 {
+  animation: fadeUpAnimation linear forwards;
+  animation-timeline: view();
+  animation-range: entry 10% cover 40%;
+}
+
+.animate-fade-up-delay-3 {
+  animation: fadeUpAnimation linear forwards;
+  animation-timeline: view();
+  animation-range: entry 15% cover 45%;
+}
+
+.animate-fade-up-delay-4 {
+  animation: fadeUpAnimation linear forwards;
+  animation-timeline: view();
+  animation-range: entry 20% cover 50%;
+}
+
+/* ============================================================
+   SKELETON LOADING STYLES - UX OPTIMIZED
+   ============================================================
+   
+   Principes UX appliqués:
+   - Animation lente (2s+) = expérience calme et rassurante
+   - Gradient subtil = pas de stress visuel
+   - GPU-friendly = 60fps constant
+   - prefers-reduced-motion respecté
+   - Dark mode supporté
+   
+   ============================================================ */
+
+/* Skeleton shimmer effect - Premium gradient */
+.skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #e8e4e1 0%,
+    #f5f2ef 25%,
+    #faf8f6 50%,
+    #f5f2ef 75%,
+    #e8e4e1 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Dark mode shimmer */
+.dark .skeleton-shimmer {
+  background: linear-gradient(
+    90deg,
+    #3d2d34 0%,
+    #4a3a42 25%,
+    #544450 50%,
+    #4a3a42 75%,
+    #3d2d34 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Skeleton wave effect - Premium subtle */
+.skeleton-wave {
+  background: linear-gradient(
+    110deg,
+    #e8e4e1 0%,
+    #e8e4e1 40%,
+    #f5f2ef 50%,
+    #e8e4e1 60%,
+    #e8e4e1 100%
+  );
+  background-size: 200% 100%;
+  animation: skeletonWave 2.5s ease-in-out infinite;
+}
+
+/* Dark mode wave */
+.dark .skeleton-wave {
+  background: linear-gradient(
+    110deg,
+    #3d2d34 0%,
+    #3d2d34 40%,
+    #4a3a42 50%,
+    #3d2d34 60%,
+    #3d2d34 100%
+  );
+  background-size: 200% 100%;
+}
+
+/* Skeleton pulse smooth - Apple style */
+.skeleton-pulse-smooth {
+  background-color: #e8e4e1;
+  animation: skeletonPulseSmooth 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.dark .skeleton-pulse-smooth {
+  background-color: #3d2d34;
+}
+
+/* Keyframes pour wave */
+@keyframes skeletonWave {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Keyframes pour pulse smooth */
+@keyframes skeletonPulseSmooth {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}
+
+/* Accessibility: respect prefers-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer,
+  .skeleton-wave,
+  .skeleton-pulse-smooth {
+    animation: none;
+    opacity: 0.7;
+  }
+}
+
+/* Mobile optimization - Reduce animation complexity */
+@media (max-width: 768px) {
+  .skeleton-shimmer,
+  .skeleton-wave {
+    animation-duration: 2.5s;
+  }
+}
+
+/* ============================================================
+   SKELETON → CONTENT TRANSITION
+   Transition fluide sans flickering
+   ============================================================ */
+
+.skeleton-fade-out {
+  animation: skeletonFadeOut 0.3s ease-out forwards;
+}
+
+@keyframes skeletonFadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.content-fade-in {
+  animation: contentFadeIn 0.4s ease-out forwards;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* =============================================================================
+   SCROLL HIDE — Accessibilité: désactiver les animations si demandé
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  .will-change-transform {
+    will-change: auto;
+    transition-duration: 0ms !important;
+  }
+}
