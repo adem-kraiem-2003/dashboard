@@ -27,7 +27,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
 
   if (loading) {
     return (
-      <div className="py-10 flex items-center justify-center gap-2 text-slate-400">
+      <div data-testid="products-loading" className="py-10 flex items-center justify-center gap-2 text-slate-400">
         <ArrowPathIcon className="w-5 h-5 animate-spin" />
         <p>Chargement des produits...</p>
       </div>
@@ -36,7 +36,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
 
   if (error) {
     return (
-      <div className="py-6 px-4 flex items-center gap-2 text-red-600 text-sm bg-red-50 dark:bg-red-900/20 rounded-lg">
+      <div data-testid="products-error" className="py-6 px-4 flex items-center gap-2 text-red-600 text-sm bg-red-50 dark:bg-red-900/20 rounded-lg">
         <ExclamationCircleIcon className="w-5 h-5" />
         {error}
       </div>
@@ -45,7 +45,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
 
   if (products.length === 0) {
     return (
-      <div className="py-16 text-center text-slate-500">
+      <div data-testid="products-empty" className="py-16 text-center text-slate-500">
         <InboxIcon className="w-16 h-16 mx-auto mb-3 opacity-20" />
         <p>Aucun produit trouvé</p>
       </div>
@@ -54,7 +54,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm">
-      <table className="w-full text-left border-collapse">
+      <table data-testid="products-table" className="w-full text-left border-collapse">
         <thead>
           <tr className="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
             <th className="px-6 py-4 text-sm font-bold text-slate-600 dark:text-slate-400 uppercase tracking-wider">
@@ -102,6 +102,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
             return (
               <tr
                 key={product.id}
+                data-testid={`product-row-${product.id}`}
                 className="group hover:bg-slate-50 dark:hover:bg-slate-800/50 transition-colors border-b border-slate-100 dark:border-slate-800"
               >
                 <td className="px-6 py-4">
@@ -135,12 +136,14 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
                 <td className="px-6 py-4 text-right">
                   <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                     <Link
+                      data-testid={`product-edit-${product.id}`}
                       href={`/produits/edit?id=${product.id}`}
                       className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors"
                     >
                       <PencilIcon className="w-4 h-4" />
                     </Link>
                     <button
+                      data-testid={`product-delete-${product.id}`}
                       onClick={() => onDelete(product.id)}
                       className="p-2 text-slate-400 hover:text-red-600 transition-colors"
                     >

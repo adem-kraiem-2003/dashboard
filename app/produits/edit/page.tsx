@@ -300,6 +300,53 @@ function EditProductClient() {
     <>
       <AdminHeader />
 
+      {/* ── Sticky Save Bar ── */}
+      {!loading && (
+        <div className="shrink-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 lg:px-10 py-2.5 z-40">
+          <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-4">
+            <div className="flex items-center gap-2 min-w-0">
+              <span className="hidden sm:block text-xs text-slate-400 shrink-0">Produit :</span>
+              <span className="text-sm font-semibold text-slate-800 dark:text-white truncate max-w-[240px]">
+                {formData.name || (isEditMode ? 'Modification…' : 'Nouveau produit')}
+              </span>
+              {isEditMode && (
+                <span className={`shrink-0 inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                  isActive
+                    ? 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400'
+                    : 'bg-slate-100 text-slate-500 dark:bg-slate-800 dark:text-slate-400'
+                }`}>
+                  {isActive ? '● Actif' : '○ Inactif'}
+                </span>
+              )}
+            </div>
+            <div className="flex items-center gap-2 shrink-0">
+              <button
+                type="button"
+                onClick={() => router.back()}
+                className="px-3 py-1.5 text-sm font-medium rounded-lg border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 transition-colors"
+              >
+                Annuler
+              </button>
+              <button
+                type="button"
+                onClick={() => handleSubmit({ preventDefault: () => {} } as React.FormEvent)}
+                disabled={submitting}
+                className={`flex items-center gap-1.5 px-4 py-1.5 text-sm font-bold rounded-lg text-white transition-all ${
+                  submitting
+                    ? 'bg-slate-400 cursor-not-allowed'
+                    : 'bg-[#e2366a] hover:bg-[#e2366a]/90 shadow-sm shadow-[#e2366a]/20'
+                }`}
+              >
+                {submitting && (
+                  <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                )}
+                {submitting ? 'Enregistrement…' : (isEditMode ? 'Enregistrer' : 'Créer le produit')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Page Body ── */}
       <div className="flex-1 overflow-y-auto">
         <main className="max-w-[1440px] mx-auto w-full p-4 lg:p-10">

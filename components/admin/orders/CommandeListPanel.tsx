@@ -36,10 +36,6 @@ export default function CommandeListPanel({
   const [activeStatus, setActiveStatus] = useState<'all' | Order['status']>('all');
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
 
-  useEffect(() => {
-    setSelectedOrder((prev) => prev ?? orders[0] ?? null);
-  }, [orders]);
-
   const filteredOrders =
     activeStatus === 'all' ? orders : orders.filter(o => o.status === activeStatus);
 
@@ -88,6 +84,7 @@ export default function CommandeListPanel({
       {selectedOrder && (
         <OrderDetailPanel
           order={selectedOrder}
+          onClose={() => setSelectedOrder(null)}
           onStatusChange={(status) => {
             onStatusChange?.(selectedOrder.id, status as Order['status']);
             setSelectedOrder({ ...selectedOrder, status: status as Order['status'] });

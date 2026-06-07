@@ -91,6 +91,7 @@ export default function CategoryCard({
           {onUploadImage && (
             <button
               type="button"
+              data-testid={`category-upload-${category.id}`}
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
               className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer disabled:cursor-wait"
@@ -122,6 +123,7 @@ export default function CategoryCard({
         <div className="flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           {onViewProducts && (
             <button
+              data-testid={`category-view-products-${category.id}`}
               onClick={() => onViewProducts(category.id)}
               className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors"
             >
@@ -130,6 +132,7 @@ export default function CategoryCard({
           )}
           {onEdit && (
             <button
+              data-testid={`category-edit-${category.id}`}
               onClick={() => onEdit(category.id)}
               className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors"
             >
@@ -138,6 +141,7 @@ export default function CategoryCard({
           )}
           {onDelete && (
             <button
+              data-testid={`category-delete-${category.id}`}
               onClick={() => onDelete(category.id)}
               className="p-2 text-slate-400 hover:text-red-600 transition-colors"
             >

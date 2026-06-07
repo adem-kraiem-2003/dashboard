@@ -22,6 +22,7 @@ export default function OrderStatusTabs({ tabs, activeTab, onChange }: OrderStat
       {tabs.map((tab) => (
         <button
           key={tab.key}
+          data-testid={`order-status-tab-${tab.key}`}
           onClick={() => onChange(tab.key)}
           className={`px-4 py-2 rounded-lg text-sm font-bold whitespace-nowrap transition-colors ${
             activeTab === tab.key

@@ -1,7 +1,7 @@
 ﻿'use client';
 
-import React, { useState } from 'react';
-import { DocumentTextIcon, PhoneIcon, MapPinIcon, TagIcon, ClockIcon, TruckIcon, CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline';
+import React, { useState, useEffect } from 'react';
+import { DocumentTextIcon, PhoneIcon, MapPinIcon, TagIcon, ClockIcon, TruckIcon, CheckCircleIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import type { LigneCommande } from '@/types/api.types';
 
 interface Order {
@@ -20,6 +20,7 @@ interface Order {
 interface OrderDetailPanelProps {
   order: Order | null;
   onStatusChange?: (status: string) => void;
+  onClose?: () => void;
 }
 
 const STATUS_CONFIG = {
@@ -51,8 +52,17 @@ function formatPrice(amount: number) {
   return `${amount.toFixed(2)} DH`;
 }
 
-export default function OrderDetailPanel({ order, onStatusChange }: OrderDetailPanelProps) {
+export default function OrderDetailPanel({ order, onStatusChange, onClose }: OrderDetailPanelProps) {
   const [updatingStatus, setUpdatingStatus] = useState(false);
+
+  useEffect(() => {
+    if (!onClose) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') onClose();
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [onClose]);
 
   if (!order) {
     return (
@@ -94,10 +104,22 @@ export default function OrderDetailPanel({ order, onStatusChange }: OrderDetailP
               {formatDate(order.date)}
             </p>
           </div>
-          <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${cfg.color}`}>
-            <cfg.Icon className="w-3 h-3" />
-            {cfg.label}
-          </span>
+          <div className="flex items-center gap-2">
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold ${cfg.color}`}>
+              <cfg.Icon className="w-3 h-3" />
+              {cfg.label}
+            </span>
+            {onClose && (
+              <button
+                onClick={onClose}
+                aria-label="Fermer le détail (Échap)"
+                title="Fermer (Échap)"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              >
+                <XMarkIcon className="w-4 h-4" />
+              </button>
+            )}
+          </div>
         </div>
 
         {/* Client info */}

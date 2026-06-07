@@ -51,6 +51,7 @@ export default function AdminSidebar() {
         </div>
         {/* Close button (mobile only) */}
         <button
+          data-testid="sidebar-mobile-close"
           className="ml-auto md:hidden size-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500"
           onClick={() => setMobileOpen(false)}
           aria-label="Fermer le menu"
@@ -65,6 +66,7 @@ export default function AdminSidebar() {
           const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
           return (
             <Link
+              data-testid={`sidebar-link-${item.label.toLowerCase()}`}
               key={item.href}
               href={item.href}
               className={
@@ -101,7 +103,7 @@ export default function AdminSidebar() {
             <p className="text-xs font-bold truncate">Sarah Nouri</p>
             <p className="text-[10px] text-slate-500 truncate">Propriétaire</p>
           </div>
-          <ArrowRightOnRectangleIcon className="w-4 h-4 text-slate-400 cursor-pointer" />
+          <ArrowRightOnRectangleIcon data-testid="sidebar-logout" className="w-4 h-4 text-slate-400 cursor-pointer" />
         </div>
       </div>
     </>
@@ -111,6 +113,7 @@ export default function AdminSidebar() {
     <>
       {/* Mobile hamburger button */}
       <button
+        data-testid="sidebar-mobile-toggle"
         className="md:hidden fixed top-4 left-4 z-50 size-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-slate-600 dark:text-slate-400 transition-colors"
         onClick={() => setMobileOpen(v => !v)}
         aria-label="Ouvrir le menu"
@@ -121,6 +124,7 @@ export default function AdminSidebar() {
       {/* Mobile overlay */}
       {mobileOpen && (
         <div
+          data-testid="sidebar-mobile-overlay"
           className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
           onClick={() => setMobileOpen(false)}
         />

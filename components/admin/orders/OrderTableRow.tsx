@@ -56,6 +56,7 @@ export default function OrderTableRow({ order, isSelected, onView, onEdit, onDel
 
   return (
     <tr
+      data-testid={`order-row-${order.id}`}
       onClick={() => onView?.(order.id)}
       className={`transition-colors cursor-pointer group ${
         isSelected
@@ -75,6 +76,7 @@ export default function OrderTableRow({ order, isSelected, onView, onEdit, onDel
       <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
         {onStatusChange ? (
           <select
+            data-testid={`order-status-select-${order.id}`}
             value={order.status}
             onChange={(e) => onStatusChange(order.id, e.target.value as Order['status'])}
             className={`text-xs font-bold px-2 py-1 rounded-full border-0 cursor-pointer focus:ring-2 focus:ring-[#e2366a] focus:outline-none ${statusStyle.badge}`}
@@ -93,12 +95,12 @@ export default function OrderTableRow({ order, isSelected, onView, onEdit, onDel
       <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
         <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
           {onEdit && (
-            <button onClick={() => onEdit(order.id)} className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors">
+            <button data-testid={`order-edit-${order.id}`} onClick={() => onEdit(order.id)} className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors">
               <PencilIcon className="w-4 h-4" />
             </button>
           )}
           {onDelete && (
-            <button onClick={() => onDelete(order.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
+            <button data-testid={`order-delete-${order.id}`} onClick={() => onDelete(order.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
               <TrashIcon className="w-4 h-4" />
             </button>
           )}

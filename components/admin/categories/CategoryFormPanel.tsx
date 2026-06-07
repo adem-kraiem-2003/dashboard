@@ -71,7 +71,7 @@ export default function CategoryFormPanel({
       </div>
 
       {error && (
-        <div className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300 text-sm">
+        <div data-testid="category-form-error" className="mb-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg text-red-700 dark:text-red-300 text-sm">
           {error}
         </div>
       )}
@@ -83,6 +83,7 @@ export default function CategoryFormPanel({
             Nom de la catégorie
           </label>
           <input
+            data-testid="category-form-name"
             type="text"
             value={form.name}
             onChange={e => handleNameChange(e.target.value)}
@@ -98,6 +99,7 @@ export default function CategoryFormPanel({
             Slug (URL)
           </label>
           <input
+            data-testid="category-form-slug"
             type="text"
             value={form.slug}
             onChange={e => setForm(f => ({ ...f, slug: e.target.value }))}
@@ -113,6 +115,7 @@ export default function CategoryFormPanel({
             Catégorie parent (optionnel)
           </label>
           <select
+            data-testid="category-form-parent"
             value={form.parentId}
             onChange={e => setForm(f => ({ ...f, parentId: e.target.value }))}
             className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-[#e2366a] focus:border-transparent text-slate-900 dark:text-white transition-all"
@@ -135,6 +138,7 @@ export default function CategoryFormPanel({
             Description (optionnel)
           </label>
           <textarea
+            data-testid="category-form-description"
             value={form.description}
             onChange={e => setForm(f => ({ ...f, description: e.target.value }))}
             placeholder="Description courte de la catégorie..."
@@ -147,6 +151,7 @@ export default function CategoryFormPanel({
         {/* Submit Button */}
         <button
           type="submit"
+          data-testid="category-form-submit"
           disabled={submitting || !form.name.trim()}
           className="w-full px-5 py-2.5 rounded-xl bg-[#e2366a] text-white font-bold text-sm hover:bg-[#e2366a]/90 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >

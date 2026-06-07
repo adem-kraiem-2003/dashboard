@@ -64,7 +64,7 @@ export default function LoginPage() {
           </h2>
 
           {error && (
-            <div className="mb-5 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm">
+            <div data-testid="login-error" className="mb-5 p-3 rounded-xl bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-300 text-sm">
               {error}
             </div>
           )}
@@ -78,6 +78,7 @@ export default function LoginPage() {
                 Email
               </label>
               <input
+                data-testid="login-email"
                 id="email"
                 type="email"
                 autoComplete="email"
@@ -97,6 +98,7 @@ export default function LoginPage() {
                 Mot de passe
               </label>
               <input
+                data-testid="login-password"
                 id="password"
                 type="password"
                 autoComplete="current-password"
@@ -110,6 +112,7 @@ export default function LoginPage() {
 
             <button
               type="submit"
+              data-testid="login-submit"
               disabled={loading}
               className="w-full py-2.5 px-4 rounded-xl bg-[#e2366a] hover:bg-[#c82d5e] disabled:opacity-60 text-white font-bold text-sm transition-colors"
             >

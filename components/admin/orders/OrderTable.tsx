@@ -27,7 +27,7 @@ interface OrderTableProps {
 export default function OrderTable({ orders, loading, error, selectedOrderId, onView, onEdit, onDelete, onStatusChange }: OrderTableProps) {
   if (loading) {
     return (
-      <div className="flex items-center justify-center py-16">
+      <div data-testid="orders-loading" className="flex items-center justify-center py-16">
         <div className="text-slate-500 flex flex-col items-center gap-2">
           <ArrowPathIcon className="w-10 h-10 animate-spin" />
           <p>Chargement des commandes...</p>
@@ -38,7 +38,7 @@ export default function OrderTable({ orders, loading, error, selectedOrderId, on
 
   if (error) {
     return (
-      <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-300 text-sm">
+      <div data-testid="orders-error" className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-700 dark:text-red-300 text-sm">
         {error}
       </div>
     );
@@ -46,7 +46,7 @@ export default function OrderTable({ orders, loading, error, selectedOrderId, on
 
   if (orders.length === 0) {
     return (
-      <div className="flex items-center justify-center py-16">
+      <div data-testid="orders-empty" className="flex items-center justify-center py-16">
         <div className="text-slate-500 flex flex-col items-center gap-2">
           <ShoppingBagIcon className="w-10 h-10" />
           <p>Aucune commande trouvée</p>
@@ -57,7 +57,7 @@ export default function OrderTable({ orders, loading, error, selectedOrderId, on
 
   return (
     <div className="overflow-x-auto rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900">
-      <table className="w-full text-left text-sm">
+      <table data-testid="orders-table" className="w-full text-left text-sm">
         <thead className="bg-slate-50 dark:bg-slate-800 border-b border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 font-bold uppercase tracking-wider text-xs">
           <tr>
             <th className="px-6 py-4">Commande</th>
