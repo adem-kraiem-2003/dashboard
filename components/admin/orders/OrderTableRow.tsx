@@ -72,7 +72,7 @@ export default function OrderTableRow({ order, isSelected, onView, onEdit, onDel
           <p className="text-xs text-slate-500">{order.email}</p>
         </div>
       </td>
-      <td className="px-6 py-4 text-sm font-bold">{order.total.toFixed(2)} €</td>
+      <td className="px-6 py-4 text-sm font-bold">{order.total.toFixed(2)} DT</td>
       <td className="px-6 py-4" onClick={(e) => e.stopPropagation()}>
         {onStatusChange ? (
           <select
@@ -93,7 +93,7 @@ export default function OrderTableRow({ order, isSelected, onView, onEdit, onDel
         )}
       </td>
       <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center justify-end gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
           {onEdit && (
             <button data-testid={`order-edit-${order.id}`} onClick={() => onEdit(order.id)} className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors">
               <PencilIcon className="w-4 h-4" />

@@ -77,8 +77,9 @@ export default function ProductFilters({
   return (
     <div className="bg-white dark:bg-slate-900 p-4 rounded-xl border border-slate-200 dark:border-slate-800 flex flex-wrap items-center gap-4">
       <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-        <span className="text-xs font-bold text-slate-400 uppercase">Catégorie:</span>
+        <label htmlFor="filter-category" className="text-xs font-bold text-slate-400 uppercase">Catégorie:</label>
         <select
+          id="filter-category"
           data-testid="filter-category"
           value={category}
           onChange={(e) => handleCategoryChange(e.target.value)}
@@ -93,8 +94,9 @@ export default function ProductFilters({
       </div>
 
       <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-        <span className="text-xs font-bold text-slate-400 uppercase">Statut:</span>
+        <label htmlFor="filter-status" className="text-xs font-bold text-slate-400 uppercase">Statut:</label>
         <select
+          id="filter-status"
           data-testid="filter-status"
           value={status}
           onChange={(e) => handleStatusChange(e.target.value)}
@@ -108,8 +110,9 @@ export default function ProductFilters({
       </div>
 
       <div className="flex items-center gap-2 px-3 py-2 bg-slate-50 dark:bg-slate-800 rounded-lg border border-slate-200 dark:border-slate-700">
-        <span className="text-xs font-bold text-slate-400 uppercase">Prix:</span>
+        <label htmlFor="filter-sort" className="text-xs font-bold text-slate-400 uppercase">Prix:</label>
         <select
+          id="filter-sort"
           data-testid="filter-sort"
           value={sort}
           onChange={(e) => handleSortChange(e.target.value)}

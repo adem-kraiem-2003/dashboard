@@ -13,11 +13,11 @@ import type { DashboardOrder, OrderStatus } from '@/components/admin/dashboard/D
 const INITIAL_COUNT = 1248;
 
 const INITIAL_ORDERS: DashboardOrder[] = [
-  { id: '#ORD-2024-001', customer: 'Marc Lavoine',    avatar: 'ML', date: '22 Mai 2024, 14:30', amount: '129.99 €', status: 'Livré'          },
-  { id: '#ORD-2024-002', customer: 'Julie Morel',     avatar: 'JM', date: '22 Mai 2024, 12:15', amount: '85.50 €',  status: 'En préparation' },
-  { id: '#ORD-2024-003', customer: 'Thomas Pesquet',  avatar: 'TP', date: '21 Mai 2024, 18:45', amount: '342.00 €', status: 'Expédié'         },
-  { id: '#ORD-2024-004', customer: 'Camille Bernard', avatar: 'CB', date: '21 Mai 2024, 10:00', amount: '57.00 €',  status: 'En préparation' },
-  { id: '#ORD-2024-005', customer: 'Lucie Fontaine',  avatar: 'LF', date: '20 Mai 2024, 09:30', amount: '215.00 €', status: 'Livré'          },
+  { id: '#ORD-2024-001', customer: 'Marc Lavoine',    avatar: 'ML', date: '22 Mai 2024, 14:30', amount: '129.99 DT', status: 'Livré'          },
+  { id: '#ORD-2024-002', customer: 'Julie Morel',     avatar: 'JM', date: '22 Mai 2024, 12:15', amount: '85.50 DT',  status: 'En préparation' },
+  { id: '#ORD-2024-003', customer: 'Thomas Pesquet',  avatar: 'TP', date: '21 Mai 2024, 18:45', amount: '342.00 DT', status: 'Expédié'         },
+  { id: '#ORD-2024-004', customer: 'Camille Bernard', avatar: 'CB', date: '21 Mai 2024, 10:00', amount: '57.00 DT',  status: 'En préparation' },
+  { id: '#ORD-2024-005', customer: 'Lucie Fontaine',  avatar: 'LF', date: '20 Mai 2024, 09:30', amount: '215.00 DT', status: 'Livré'          },
 ];
 
 export default function DashboardClient() {
@@ -79,7 +79,6 @@ export default function DashboardClient() {
         </div>
 
         <DashboardOrdersTable
-          orders={orders}
           filteredOrders={filteredOrders}
           loading={loading}
           search={search}

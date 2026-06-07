@@ -79,10 +79,11 @@ export default function CategoryFormPanel({
       <form onSubmit={handleSubmit} className="space-y-5">
         {/* Name Input */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <label htmlFor="category-name" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
             Nom de la catégorie
           </label>
           <input
+            id="category-name"
             data-testid="category-form-name"
             type="text"
             value={form.name}
@@ -95,10 +96,11 @@ export default function CategoryFormPanel({
 
         {/* Slug Input */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <label htmlFor="category-slug" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
             Slug (URL)
           </label>
           <input
+            id="category-slug"
             data-testid="category-form-slug"
             type="text"
             value={form.slug}
@@ -111,10 +113,11 @@ export default function CategoryFormPanel({
 
         {/* Parent Category Select */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <label htmlFor="category-parent" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
             Catégorie parent (optionnel)
           </label>
           <select
+            id="category-parent"
             data-testid="category-form-parent"
             value={form.parentId}
             onChange={e => setForm(f => ({ ...f, parentId: e.target.value }))}
@@ -134,10 +137,11 @@ export default function CategoryFormPanel({
 
         {/* Description Textarea */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+          <label htmlFor="category-description" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
             Description (optionnel)
           </label>
           <textarea
+            id="category-description"
             data-testid="category-form-description"
             value={form.description}
             onChange={e => setForm(f => ({ ...f, description: e.target.value }))}

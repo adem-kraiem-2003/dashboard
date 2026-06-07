@@ -83,10 +83,11 @@ export default function ProductForm({ data, onChange, categories = [] }: Product
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Nom du produit */}
         <div className="md:col-span-2">
-          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">
+          <label htmlFor="product-name" className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">
             Nom du produit
           </label>
           <input
+            id="product-name"
             className="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-[#e2366a] focus:ring-[#e2366a]"
             type="text"
             name="name"
@@ -100,7 +101,7 @@ export default function ProductForm({ data, onChange, categories = [] }: Product
         {/* Slug — auto-généré */}
         <div className="md:col-span-2">
           <div className="flex items-center justify-between mb-2">
-            <label className="text-sm font-semibold text-slate-700 dark:text-slate-300">
+            <label htmlFor="product-slug" className="text-sm font-semibold text-slate-700 dark:text-slate-300">
               Slug URL
             </label>
             {slugLocked ? (
@@ -124,6 +125,7 @@ export default function ProductForm({ data, onChange, categories = [] }: Product
               /produits/
             </span>
             <input
+              id="product-slug"
               className={`flex-1 rounded-none rounded-r-lg border text-sm dark:bg-slate-800 focus:ring-[#e2366a] transition-colors ${
                 data.slug.length >= SLUG_MAX
                   ? 'border-amber-400 dark:border-amber-600 focus:border-amber-500'
@@ -160,8 +162,9 @@ export default function ProductForm({ data, onChange, categories = [] }: Product
 
         {/* Catégorie */}
         <div>
-          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Catégorie</label>
+          <label htmlFor="product-category" className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">Catégorie</label>
           <select
+            id="product-category"
             className="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-[#e2366a] focus:ring-[#e2366a] text-sm"
             name="categoryId"
             value={data.categoryId}
@@ -178,12 +181,13 @@ export default function ProductForm({ data, onChange, categories = [] }: Product
 
         {/* Prix */}
         <div>
-          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">
-            Prix (MAD)
+          <label htmlFor="product-price" className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">
+            Prix (DT)
           </label>
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-semibold">MAD</span>
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm font-semibold">DT</span>
             <input
+              id="product-price"
               className="w-full pl-14 rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-[#e2366a] focus:ring-[#e2366a]"
               type="number"
               name="price"
@@ -199,10 +203,11 @@ export default function ProductForm({ data, onChange, categories = [] }: Product
 
         {/* Description */}
         <div className="md:col-span-2">
-          <label className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">
+          <label htmlFor="product-description" className="block text-sm font-semibold mb-2 text-slate-700 dark:text-slate-300">
             Description
           </label>
           <textarea
+            id="product-description"
             className="w-full rounded-lg border-slate-200 dark:border-slate-700 dark:bg-slate-800 focus:border-[#e2366a] focus:ring-[#e2366a] text-sm"
             rows={4}
             name="description"

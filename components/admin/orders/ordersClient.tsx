@@ -2,7 +2,7 @@
 
 import { useCallback, useState, useEffect } from 'react';
 import { DocumentTextIcon, ClockIcon, TruckIcon, CheckCircleIcon, ArrowDownTrayIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
-import AdminHeader from '@/components/admin/shared/AdminHeader';
+
 import AdminFooter from '@/components/admin/shared/AdminFooter';
 import PageHeader from '@/components/admin/shared/PageHeader';
 import CommandeStatsCards from '@/components/admin/orders/CommandeStatsCards';
@@ -69,7 +69,7 @@ export default function CommandeClient() {
 
   return (
     <>
-      <AdminHeader />
+      
 
       {/* Error toast for failed status updates */}
       {toastError && (

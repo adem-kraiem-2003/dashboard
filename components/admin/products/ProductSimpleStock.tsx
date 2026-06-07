@@ -17,7 +17,7 @@ export default function ProductSimpleStock({ stock, onChange }: ProductSimpleSto
       </div>
 
       <div className="max-w-xs">
-        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+        <label htmlFor="stock-quantity" className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
           Quantité disponible
         </label>
         <div className="flex items-center gap-3">
@@ -29,6 +29,7 @@ export default function ProductSimpleStock({ stock, onChange }: ProductSimpleSto
             −
           </button>
           <input
+            id="stock-quantity"
             type="number"
             min="0"
             value={stock}

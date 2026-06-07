@@ -53,7 +53,7 @@ export default function DashboardKPICards({ orders, loading, initialCount }: Das
           <span className="text-[10px] font-bold px-2 py-1 bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400 rounded-full">+8.2%</span>
         </div>
         <p className="text-slate-500 dark:text-slate-400 text-xs font-semibold uppercase tracking-wider">Chiffre d&apos;Affaires</p>
-        <h3 className="text-2xl font-extrabold mt-1">14,500.00 €</h3>
+        <h3 className="text-2xl font-extrabold mt-1">14,500.00 DT</h3>
         <div className="mt-4 h-1 w-full bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
           <div className="h-full bg-[#e2366a] rounded-full transition-all duration-700" style={{ width: '55%' }} />
         </div>

@@ -125,7 +125,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm">{product.category?.name ?? '—'}</td>
-                <td className="px-6 py-4 font-bold text-sm">{(product.price ?? 0).toFixed(2)} €</td>
+                <td className="px-6 py-4 font-bold text-sm">{(product.price ?? 0).toFixed(2)} DT</td>
                 <td className="px-6 py-4 text-sm">{getStockLabel(product)}</td>
                 <td className="px-6 py-4">
                   <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${badge.cls}`}>
@@ -134,7 +134,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <div className="flex items-center justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-end gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                     <Link
                       data-testid={`product-edit-${product.id}`}
                       href={`/produits/edit?id=${product.id}`}

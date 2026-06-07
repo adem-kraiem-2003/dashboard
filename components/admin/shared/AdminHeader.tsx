@@ -1,9 +1,13 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import { CubeIcon, MagnifyingGlassIcon, BellIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 
 export default function AdminHeader() {
+  const [searchOpen, setSearchOpen] = useState(false);
+
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 px-4 lg:px-10 py-3">
+    <header className="sticky top-0 z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 lg:px-10 py-3">
       <div className="max-w-[1440px] mx-auto flex items-center justify-between">
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3 text-[#e2366a]">
@@ -21,8 +25,30 @@ export default function AdminHeader() {
               type="text"
             />
           </div>
+          {searchOpen && (
+            <div className="md:hidden absolute top-full left-0 right-0 p-3 bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 shadow-lg">
+              <div className="relative">
+                <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+                <input
+                  data-testid="header-search-input-mobile"
+                  className="w-full pl-10 pr-4 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl focus:ring-2 focus:ring-[#e2366a]/50 text-sm"
+                  placeholder="Search products..."
+                  type="text"
+                  autoFocus
+                />
+              </div>
+            </div>
+          )}
         </div>
         <div className="flex items-center gap-4">
+          <button
+            data-testid="header-search-toggle"
+            className="md:hidden p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#e2366a] transition-colors"
+            onClick={() => setSearchOpen(v => !v)}
+            aria-label={searchOpen ? 'Fermer la recherche' : 'Ouvrir la recherche'}
+          >
+            <MagnifyingGlassIcon className="w-5 h-5" />
+          </button>
           <button data-testid="header-notifications" className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-[#e2366a] transition-colors">
             <BellIcon className="w-5 h-5" />
           </button>

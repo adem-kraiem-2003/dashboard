@@ -49,7 +49,7 @@ function formatDate(dateStr: string) {
 }
 
 function formatPrice(amount: number) {
-  return `${amount.toFixed(2)} DH`;
+  return `${amount.toFixed(2)} DT`;
 }
 
 export default function OrderDetailPanel({ order, onStatusChange, onClose }: OrderDetailPanelProps) {

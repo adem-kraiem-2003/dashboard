@@ -12,6 +12,7 @@ interface ProductPublishingProps {
   submitting: boolean;
   product: Product | null;
   isEditMode: boolean;
+  onDelete?: () => void;
 }
 
 export default function ProductPublishing({
@@ -22,6 +23,7 @@ export default function ProductPublishing({
   submitting,
   product,
   isEditMode,
+  onDelete,
 }: ProductPublishingProps) {
   return (
     <div className="lg:col-span-4 space-y-6">
@@ -55,7 +57,7 @@ export default function ProductPublishing({
               type="button"
               onClick={onSubmit}
               disabled={submitting}
-              className={`w-full flex items-center justify-center gap-2 text-white font-bold py-3 rounded-xl shadow-lg transition-all ${
+              className={`w-full flex items-center justify-center gap-2 text-white font-bold py-3 rounded-xl shadow-lg transition-all active:scale-[0.98] ${
                 submitting
                   ? 'bg-slate-400 cursor-not-allowed'
                   : 'bg-[#e2366a] hover:bg-[#e2366a]/90 shadow-[#e2366a]/20'
@@ -105,7 +107,11 @@ export default function ProductPublishing({
 
           {/* Delete Button (Edit mode only) */}
           {isEditMode && (
-            <button className="w-full mt-4 flex items-center justify-center gap-2 text-red-500 hover:text-red-600 text-xs font-bold transition-colors">
+            <button
+              type="button"
+              onClick={onDelete}
+              className="w-full mt-4 flex items-center justify-center gap-2 text-red-500 hover:text-red-600 text-xs font-bold transition-colors active:scale-[0.98]"
+            >
               <TrashIcon className="w-4 h-4" />
               Delete Product Permanently
             </button>

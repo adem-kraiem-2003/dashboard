@@ -3,12 +3,12 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
+import { clearAuthToken } from '@/services/api/apiClient';
 import {
   HomeIcon,
   ArchiveBoxIcon,
   TagIcon,
   ShoppingCartIcon,
-  ChartBarIcon,
   RectangleStackIcon,
   XMarkIcon,
   Cog6ToothIcon,
@@ -52,7 +52,7 @@ export default function AdminSidebar() {
         {/* Close button (mobile only) */}
         <button
           data-testid="sidebar-mobile-close"
-          className="ml-auto md:hidden size-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500"
+          className="ml-auto lg:hidden size-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 active:scale-95 transition-transform"
           onClick={() => setMobileOpen(false)}
           aria-label="Fermer le menu"
         >
@@ -103,7 +103,13 @@ export default function AdminSidebar() {
             <p className="text-xs font-bold truncate">Sarah Nouri</p>
             <p className="text-[10px] text-slate-500 truncate">Propriétaire</p>
           </div>
-          <ArrowRightOnRectangleIcon data-testid="sidebar-logout" className="w-4 h-4 text-slate-400 cursor-pointer" />
+          <button
+            onClick={() => { clearAuthToken(); window.location.href = '/login'; }}
+            className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:scale-95"
+            aria-label="Déconnexion"
+          >
+            <ArrowRightOnRectangleIcon data-testid="sidebar-logout" className="w-4 h-4 text-slate-400" />
+          </button>
         </div>
       </div>
     </>
@@ -114,7 +120,7 @@ export default function AdminSidebar() {
       {/* Mobile hamburger button */}
       <button
         data-testid="sidebar-mobile-toggle"
-        className="md:hidden fixed top-4 left-4 z-50 size-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-slate-600 dark:text-slate-400 transition-colors"
+        className="lg:hidden fixed top-4 left-4 z-50 size-9 flex items-center justify-center rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-sm text-slate-600 dark:text-slate-400 transition-colors active:scale-95"
         onClick={() => setMobileOpen(v => !v)}
         aria-label="Ouvrir le menu"
       >
@@ -125,19 +131,19 @@ export default function AdminSidebar() {
       {mobileOpen && (
         <div
           data-testid="sidebar-mobile-overlay"
-          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm md:hidden"
+          className="fixed inset-0 z-40 bg-black/40 backdrop-blur-sm lg:hidden"
           onClick={() => setMobileOpen(false)}
         />
       )}
 
       {/* Desktop sidebar */}
-      <aside className="hidden md:flex w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1a1114] flex-col sticky top-0 h-screen transition-colors duration-300 shrink-0">
+      <aside className="hidden lg:flex w-64 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1a1114] flex-col sticky top-0 h-screen transition-colors duration-300 shrink-0">
         {sidebarContent}
       </aside>
 
       {/* Mobile drawer */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1a1114] flex flex-col transition-transform duration-300 md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-72 border-r border-slate-200 dark:border-slate-800 bg-white dark:bg-[#1a1114] flex flex-col transition-transform duration-300 lg:hidden ${
           mobileOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >

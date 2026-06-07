@@ -165,7 +165,7 @@ export default function ProductMedia({
             : null;
           return (
             <div
-              key={idx}
+              key={`pending-${pf.file.name}-${pf.file.lastModified}`}
               className="relative group aspect-square rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 border-2 border-dashed border-slate-300 dark:border-slate-600"
             >
               {previewUrls[idx] && (

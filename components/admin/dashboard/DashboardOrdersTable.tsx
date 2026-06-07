@@ -6,7 +6,6 @@ import { STATUS_MAP } from './DashboardOrderModal';
 import { ArrowDownTrayIcon, MagnifyingGlassIcon, EllipsisHorizontalIcon, ArrowRightIcon } from '@heroicons/react/24/outline';
 
 interface DashboardOrdersTableProps {
-  orders: DashboardOrder[];
   filteredOrders: DashboardOrder[];
   loading: boolean;
   search: string;

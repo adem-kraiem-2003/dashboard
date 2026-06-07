@@ -2,7 +2,7 @@
 
 import { useProducts } from '@/hooks/useProducts';
 import { ArchiveBoxIcon, CheckCircleIcon, PlusIcon } from '@heroicons/react/24/outline';
-import AdminHeader from '@/components/admin/shared/AdminHeader';
+
 import AdminFooter from '@/components/admin/shared/AdminFooter';
 import PageHeader from '@/components/admin/shared/PageHeader';
 import PageStats from '@/components/admin/shared/PageStats';
@@ -30,7 +30,7 @@ export default function ProduitsClient() {
 
   return (
     <>
-      <AdminHeader />
+      
 
       <div className="flex-1 overflow-y-auto">
         <main className="max-w-[1440px] mx-auto w-full p-4 lg:p-10">
