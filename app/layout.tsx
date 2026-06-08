@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import '../styles/globals.css';
 import Providers from './providers';
-import AdminSidebar from '@/components/admin/AdminSidebar';
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
@@ -24,12 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         style={{ fontFamily: "'Plus Jakarta Sans', sans-serif" }}
       >
         <Providers>
-          <div className="flex h-screen overflow-hidden">
-            <AdminSidebar />
-            <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
-              {children}
-            </div>
-          </div>
+          {children}
         </Providers>
       </body>
     </html>
