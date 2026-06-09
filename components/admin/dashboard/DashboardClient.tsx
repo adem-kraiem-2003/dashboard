@@ -1,6 +1,7 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import DashboardHeader from '@/components/admin/dashboard/DashboardHeader';
 import DashboardKPICards from '@/components/admin/dashboard/DashboardKPICards';
 import DashboardRevenueChart from '@/components/admin/dashboard/DashboardRevenueChart';
@@ -9,43 +10,71 @@ import DashboardOrdersTable from '@/components/admin/dashboard/DashboardOrdersTa
 import DashboardOrderModal from '@/components/admin/dashboard/DashboardOrderModal';
 import DashboardToast from '@/components/admin/dashboard/DashboardToast';
 import type { DashboardOrder, OrderStatus } from '@/components/admin/dashboard/DashboardOrderModal';
+import { getCommandes } from '@/services/api/commande.service';
+import { formatPrice, formatDate } from '@/lib/format';
+import type { Commande } from '@/types/api.types';
 
-const INITIAL_COUNT = 1248;
+// ── Mappers ──────────────────────────────────────────────────────────────────
 
-const INITIAL_ORDERS: DashboardOrder[] = [
-  { id: '#ORD-2024-001', customer: 'Marc Lavoine',    avatar: 'ML', date: '22 Mai 2024, 14:30', amount: '129.99 DT', status: 'Livré'          },
-  { id: '#ORD-2024-002', customer: 'Julie Morel',     avatar: 'JM', date: '22 Mai 2024, 12:15', amount: '85.50 DT',  status: 'En préparation' },
-  { id: '#ORD-2024-003', customer: 'Thomas Pesquet',  avatar: 'TP', date: '21 Mai 2024, 18:45', amount: '342.00 DT', status: 'Expédié'         },
-  { id: '#ORD-2024-004', customer: 'Camille Bernard', avatar: 'CB', date: '21 Mai 2024, 10:00', amount: '57.00 DT',  status: 'En préparation' },
-  { id: '#ORD-2024-005', customer: 'Lucie Fontaine',  avatar: 'LF', date: '20 Mai 2024, 09:30', amount: '215.00 DT', status: 'Livré'          },
-];
+const PENDING_STATUTS = new Set(['EN_ATTENTE', 'CONFIRMEE', 'EN_PREPARATION']);
+
+function mapToDashboardStatus(statut: string): OrderStatus {
+  if (statut === 'EXPEDIEE') return 'Expédié';
+  if (statut === 'LIVREE')   return 'Livré';
+  if (statut === 'ANNULEE')  return 'Annulé';
+  return 'En préparation';
+}
+
+function mapCommandeToDashboardOrder(c: Commande): DashboardOrder {
+  return {
+    id: String(c.id),
+    customer: `${c.prenomClient} ${c.nomClient}`,
+    avatar: `${c.prenomClient.charAt(0)}${c.nomClient.charAt(0)}`.toUpperCase(),
+    date: formatDate(c.date ?? c.createdAt),
+    amount: formatPrice(c.total),
+    status: mapToDashboardStatus(c.statut),
+  };
+}
+
+// ── Component ─────────────────────────────────────────────────────────────────
 
 export default function DashboardClient() {
-  const [orders, setOrders] = useState<DashboardOrder[]>(INITIAL_ORDERS);
   const [search, setSearch] = useState('');
   const [selectedOrder, setSelectedOrder] = useState<DashboardOrder | null>(null);
   const [toast, setToast] = useState<{ message: string; type: 'success' | 'error' | 'info' } | null>(null);
-  const [loading, setLoading] = useState(true);
   const [chartPeriod, setChartPeriod] = useState('Cette Semaine');
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    const t = setTimeout(() => setLoading(false), 900);
-    return () => clearTimeout(t);
-  }, []);
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ['dashboard-orders'],
+    queryFn: () => getCommandes({ page: 1, limit: 50 }),
+    staleTime: 60_000,
+  });
 
   const showToast = useCallback((message: string, type: 'success' | 'error' | 'info' = 'success') => {
     setToast({ message, type });
   }, []);
 
+  const orders: DashboardOrder[] = (data?.data ?? []).map(mapCommandeToDashboardOrder);
+  const totalOrders = data?.total ?? 0;
+  const revenue = (data?.data ?? []).reduce((sum: number, c: Commande) => sum + c.total, 0);
+  const pendingCount = (data?.data ?? []).filter((c: Commande) => PENDING_STATUTS.has(c.statut)).length;
+
   const handleStatusChange = useCallback((id: string, status: OrderStatus) => {
-    setOrders(prev => prev.map(o => o.id === id ? { ...o, status } : o));
+    setSelectedOrder(prev => (prev?.id === id ? { ...prev, status } : prev));
     showToast(`Statut mis à jour : ${status}`, 'success');
-  }, [showToast]);
+    // Invalidate so the table refreshes on modal close
+    queryClient.invalidateQueries({ queryKey: ['dashboard-orders'] });
+  }, [showToast, queryClient]);
+
+  useEffect(() => {
+    if (isError) showToast('Impossible de charger les commandes.', 'error');
+  }, [isError, showToast]);
 
   const filteredOrders = orders.filter(o =>
     search === '' ||
     o.id.toLowerCase().includes(search.toLowerCase()) ||
-    o.customer.toLowerCase().includes(search.toLowerCase())
+    o.customer.toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
@@ -62,25 +91,30 @@ export default function DashboardClient() {
           <p className="text-slate-500 dark:text-slate-400">Voici un aperçu de l&apos;activité de votre boutique aujourd&apos;hui.</p>
         </div>
 
-        <DashboardKPICards orders={orders} loading={loading} initialCount={INITIAL_COUNT} />
+        <DashboardKPICards
+          totalOrders={totalOrders}
+          revenue={revenue}
+          pendingCount={pendingCount}
+          loading={isLoading}
+        />
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
           <div className="lg:col-span-2">
             <DashboardRevenueChart
-              loading={loading}
+              loading={isLoading}
               chartPeriod={chartPeriod}
               onPeriodChange={setChartPeriod}
             />
           </div>
           <DashboardRecentActivity
-            loading={loading}
+            loading={isLoading}
             onViewAll={() => showToast("Redirection vers le journal d'activité...", 'info')}
           />
         </div>
 
         <DashboardOrdersTable
           filteredOrders={filteredOrders}
-          loading={loading}
+          loading={isLoading}
           search={search}
           onSelectOrder={setSelectedOrder}
           onExport={() => showToast('Export CSV en cours...', 'info')}
