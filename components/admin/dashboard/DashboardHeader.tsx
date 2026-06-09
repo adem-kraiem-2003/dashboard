@@ -31,9 +31,11 @@ export default function DashboardHeader({ search, onSearchChange, onNotification
           <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 w-4 h-4" />
           <input
             ref={searchRef}
+            aria-label="Rechercher une commande ou un client"
+            name="dashboard-search"
             className="w-full pl-10 pr-16 py-2 bg-slate-100 dark:bg-slate-800 border-none rounded-xl text-sm focus:ring-2 focus:ring-[#e2366a]/20 placeholder:text-slate-400"
             placeholder="Rechercher une commande, un client..."
-            type="text"
+            type="search"
             value={search}
             onChange={e => onSearchChange(e.target.value)}
           />

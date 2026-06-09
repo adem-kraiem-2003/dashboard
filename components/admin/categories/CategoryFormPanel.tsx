@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { PlusCircleIcon } from '@heroicons/react/24/outline';
 import type { Category } from '@/types/api.types';
 
@@ -40,6 +40,11 @@ export default function CategoryFormPanel({
     description: '',
   });
   const [error, setError] = useState<string | null>(initialError);
+
+  // Sync external error prop into local state when parent re-renders with a new error
+  useEffect(() => {
+    setError(initialError ?? null);
+  }, [initialError]);
 
   const handleNameChange = (name: string) => {
     setForm(f => ({ ...f, name, slug: slugify(name) }));

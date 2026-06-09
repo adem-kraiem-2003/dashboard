@@ -11,7 +11,7 @@ interface DashboardToastProps {
 
 export default function DashboardToast({ message, type, onClose }: DashboardToastProps) {
   useEffect(() => {
-    const t = setTimeout(onClose, 3500);
+    const t = setTimeout(onClose, 5000);
     return () => clearTimeout(t);
   }, [onClose]);
 
@@ -22,11 +22,26 @@ export default function DashboardToast({ message, type, onClose }: DashboardToas
   };
 
   return (
-    <div className={`fixed bottom-5 right-5 z-[200] flex items-center gap-3 px-4 py-3 rounded-xl text-white text-sm font-semibold shadow-xl animate-in slide-in-from-bottom-4 ${colors[type]}`}>
-      {type === 'success' ? <CheckCircleIcon className="w-4 h-4" /> : type === 'error' ? <ExclamationCircleIcon className="w-4 h-4" /> : <InformationCircleIcon className="w-4 h-4" />}
-      {message}
-      <button onClick={onClose} className="ml-2 opacity-70 hover:opacity-100">
-        <XMarkIcon className="w-4 h-4" />
+    <div
+      role="alert"
+      aria-live="assertive"
+      aria-atomic="true"
+      className={`fixed bottom-5 right-5 z-[200] flex items-center gap-3 px-4 py-3 rounded-xl text-white text-sm font-semibold shadow-xl animate-in slide-in-from-bottom-4 ${colors[type]}`}
+    >
+      {type === 'success' ? (
+        <CheckCircleIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+      ) : type === 'error' ? (
+        <ExclamationCircleIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+      ) : (
+        <InformationCircleIcon className="w-4 h-4 shrink-0" aria-hidden="true" />
+      )}
+      <span>{message}</span>
+      <button
+        onClick={onClose}
+        aria-label="Fermer la notification"
+        className="ml-2 opacity-70 hover:opacity-100 focus:opacity-100 rounded focus:outline-none focus:ring-2 focus:ring-white/50"
+      >
+        <XMarkIcon className="w-4 h-4" aria-hidden="true" />
       </button>
     </div>
   );

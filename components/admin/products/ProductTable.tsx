@@ -27,8 +27,13 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
 
   if (loading) {
     return (
-      <div data-testid="products-loading" className="py-10 flex items-center justify-center gap-2 text-slate-400">
-        <ArrowPathIcon className="w-5 h-5 animate-spin" />
+      <div
+        role="status"
+        aria-live="polite"
+        data-testid="products-loading"
+        className="py-10 flex items-center justify-center gap-2 text-slate-400"
+      >
+        <ArrowPathIcon className="w-5 h-5 animate-spin" aria-hidden="true" />
         <p>Chargement des produits...</p>
       </div>
     );
@@ -134,20 +139,22 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
                   </span>
                 </td>
                 <td className="px-6 py-4 text-right">
-                  <div className="flex items-center justify-end gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center justify-end gap-2 lg:opacity-0 lg:group-hover:opacity-100 focus-within:opacity-100 transition-opacity">
                     <Link
                       data-testid={`product-edit-${product.id}`}
                       href={`/produits/edit?id=${product.id}`}
-                      className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors"
+                      aria-label={`Modifier le produit ${product.name}`}
+                      className="p-2 text-slate-400 hover:text-[#e2366a] focus:text-[#e2366a] rounded transition-colors focus:outline-none focus:ring-2 focus:ring-[#e2366a]/40"
                     >
-                      <PencilIcon className="w-4 h-4" />
+                      <PencilIcon className="w-4 h-4" aria-hidden="true" />
                     </Link>
                     <button
                       data-testid={`product-delete-${product.id}`}
                       onClick={() => onDelete(product.id)}
-                      className="p-2 text-slate-400 hover:text-red-600 transition-colors"
+                      aria-label={`Supprimer le produit ${product.name}`}
+                      className="p-2 text-slate-400 hover:text-red-600 focus:text-red-600 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-red-400/40"
                     >
-                      <TrashIcon className="w-4 h-4" />
+                      <TrashIcon className="w-4 h-4" aria-hidden="true" />
                     </button>
                   </div>
                 </td>

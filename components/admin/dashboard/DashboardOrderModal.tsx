@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import type { ComponentType, SVGProps } from 'react';
 import { CheckCircleIcon, ClockIcon, TruckIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
+import { useFocusTrap } from '@/hooks/useFocusTrap';
 
 export type OrderStatus = 'Livré' | 'En préparation' | 'Expédié' | 'Annulé';
 
@@ -33,6 +34,8 @@ interface DashboardOrderModalProps {
 }
 
 export default function DashboardOrderModal({ order, onClose, onStatusChange }: DashboardOrderModalProps) {
+  const trapRef = useFocusTrap<HTMLDivElement>(true);
+
   useEffect(() => {
     const handler = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
     window.addEventListener('keydown', handler);
@@ -40,16 +43,20 @@ export default function DashboardOrderModal({ order, onClose, onStatusChange }: 
   }, [onClose]);
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true">
-      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} />
-      <div className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-md">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4" role="dialog" aria-modal="true" aria-labelledby="order-modal-title">
+      <div className="absolute inset-0 bg-black/40 backdrop-blur-sm" onClick={onClose} aria-hidden="true" />
+      <div ref={trapRef} className="relative bg-white dark:bg-slate-900 rounded-2xl shadow-2xl border border-slate-200 dark:border-slate-800 w-full max-w-md">
         <div className="flex items-center justify-between p-5 border-b border-slate-100 dark:border-slate-800">
           <div>
-            <h3 className="font-bold text-slate-900 dark:text-white">{order.id}</h3>
+            <h3 id="order-modal-title" className="font-bold text-slate-900 dark:text-white">{order.id}</h3>
             <p className="text-xs text-slate-500 mt-0.5">{order.date}</p>
           </div>
-          <button onClick={onClose} className="size-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors">
-            <XMarkIcon className="w-4 h-4" />
+          <button
+            onClick={onClose}
+            aria-label="Fermer la commande"
+            className="size-8 flex items-center justify-center rounded-lg hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-500 transition-colors focus:outline-none focus:ring-2 focus:ring-[#e2366a]/50"
+          >
+            <XMarkIcon className="w-4 h-4" aria-hidden="true" />
           </button>
         </div>
         <div className="p-5 space-y-4">

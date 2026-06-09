@@ -24,10 +24,10 @@ interface OrderDetailPanelProps {
 }
 
 const STATUS_CONFIG = {
-  pending:   { label: 'En attente',  color: 'bg-amber-100  text-amber-700  dark:bg-amber-900/30  dark:text-amber-400',  Icon: ClockIcon },
-  shipped:   { label: 'Expediee',    color: 'bg-blue-100   text-blue-700   dark:bg-blue-900/30   dark:text-blue-400',   Icon: TruckIcon },
-  delivered: { label: 'Livree',      color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400', Icon: CheckCircleIcon },
-  cancelled: { label: 'Annulee',     color: 'bg-red-100    text-red-700    dark:bg-red-900/30    dark:text-red-400',    Icon: XCircleIcon },
+  pending:   { label: 'En attente',   color: 'bg-amber-100  text-amber-700  dark:bg-amber-900/30  dark:text-amber-400',   Icon: ClockIcon },
+  shipped:   { label: 'Expédiée',     color: 'bg-blue-100   text-blue-700   dark:bg-blue-900/30   dark:text-blue-400',    Icon: TruckIcon },
+  delivered: { label: 'Livrée',       color: 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400', Icon: CheckCircleIcon },
+  cancelled: { label: 'Annulée',      color: 'bg-red-100    text-red-700    dark:bg-red-900/30    dark:text-red-400',     Icon: XCircleIcon },
 } as const;
 
 const STATUS_TRANSITIONS: Record<Order['status'], Order['status'][]> = {
