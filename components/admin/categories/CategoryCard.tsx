@@ -97,12 +97,12 @@ export default function CategoryCard({
               onClick={() => fileInputRef.current?.click()}
               disabled={uploading}
               className="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity cursor-pointer disabled:cursor-wait"
-              aria-label="Changer l'illustration"
+              aria-label={uploading ? 'Upload en cours...' : "Changer l'illustration"}
             >
               {uploading ? (
-                <ArrowPathIcon className="w-8 h-8 text-white animate-spin" />
+                <ArrowPathIcon className="w-8 h-8 text-white animate-spin" aria-hidden="true" />
               ) : (
-                <CameraIcon className="w-8 h-8 text-white" />
+                <CameraIcon className="w-8 h-8 text-white" aria-hidden="true" />
               )}
             </button>
           )}

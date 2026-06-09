@@ -24,8 +24,13 @@ export default function CategoryListPanel({
 }: CategoryListPanelProps) {
   if (loading) {
     return (
-      <div className="py-10 flex items-center justify-center gap-2 text-slate-400">
-        <ArrowPathIcon className="w-5 h-5 animate-spin" />
+      <div
+        role="status"
+        aria-live="polite"
+        aria-label="Chargement des catégories"
+        className="py-10 flex items-center justify-center gap-2 text-slate-400"
+      >
+        <ArrowPathIcon className="w-5 h-5 animate-spin" aria-hidden="true" />
         <p>Chargement des catégories...</p>
       </div>
     );

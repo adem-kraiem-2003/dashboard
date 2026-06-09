@@ -27,9 +27,15 @@ interface OrderTableProps {
 export default function OrderTable({ orders, loading, error, selectedOrderId, onView, onEdit, onDelete, onStatusChange }: OrderTableProps) {
   if (loading) {
     return (
-      <div data-testid="orders-loading" className="flex items-center justify-center py-16">
+      <div
+        data-testid="orders-loading"
+        role="status"
+        aria-live="polite"
+        aria-label="Chargement des commandes"
+        className="flex items-center justify-center py-16"
+      >
         <div className="text-slate-500 flex flex-col items-center gap-2">
-          <ArrowPathIcon className="w-10 h-10 animate-spin" />
+          <ArrowPathIcon className="w-10 h-10 animate-spin" aria-hidden="true" />
           <p>Chargement des commandes...</p>
         </div>
       </div>
