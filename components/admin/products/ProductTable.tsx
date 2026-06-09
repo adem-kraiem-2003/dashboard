@@ -2,6 +2,7 @@
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { ArrowPathIcon, ExclamationCircleIcon, InboxIcon, PhotoIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import type { Product } from '@/types/api.types';
 import { formatPrice } from '@/lib/format';
@@ -118,7 +119,14 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
                         const thumbUrl = product.images?.find(i => i.type === 'PRINCIPALE')?.url
                           ?? product.images?.[0]?.url;
                         return thumbUrl ? (
-                          <img alt={product.name} className="w-full h-full object-cover" loading="lazy" src={thumbUrl} />
+                          <Image
+                            alt={product.name}
+                            className="w-full h-full object-cover"
+                            src={thumbUrl}
+                            width={48}
+                            height={48}
+                            loading="lazy"
+                          />
                         ) : (
                           <PhotoIcon className="w-6 h-6 text-slate-300" />
                         );

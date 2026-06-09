@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from 'next/image';
 import { CubeIcon, MagnifyingGlassIcon, BellIcon, Cog6ToothIcon } from '@heroicons/react/24/outline';
 
 export default function AdminHeader() {
@@ -66,7 +67,7 @@ export default function AdminHeader() {
             <Cog6ToothIcon className="w-5 h-5" aria-hidden="true" />
           </button>
           <div className="h-10 w-10 rounded-full bg-[#e2366a]/10 border-2 border-[#e2366a]/20 flex items-center justify-center overflow-hidden">
-            <img
+            <Image
               alt="Avatar administrateur"
               className="w-full h-full object-cover"
               loading="eager"

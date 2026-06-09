@@ -1,6 +1,7 @@
 ﻿'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
@@ -103,10 +104,13 @@ export default function AdminSidebar() {
         </Link>
         <div className="mt-4 p-3 bg-slate-100 dark:bg-slate-800 rounded-xl flex items-center gap-3">
           <div className="size-8 rounded-full bg-slate-300 dark:bg-slate-700 overflow-hidden shrink-0">
-            <img
+            <Image
               className="w-full h-full object-cover"
               alt="Avatar administrateur"
               src="https://lh3.googleusercontent.com/aida-public/AB6AXuDCt2PeeKu5YBB9Oq9zEpOfkFJqi3zYH9Vt2aKRpJjPTN5Ub-A1AOyIDCBRXmHl8ObX4S8Shk6wHU6q9zl9fGom8FHwOFFvSm8_3BLI4nFflVSx77dDElxAxGmP9TlJjVjtjOnt6c05_9_B7i_9wrQbjoNZ2GJd2kmUiPWMztdHFE2ziT_8eXhnRFTP1Y2glDrNlTc6QVRFODyW9Ho5FQPJjlGySE_sdFwiuGwzdsrJQNXa-k8Oaxac4LlEUzYrm1DYTcLW5Qm0LWYe"
+              width={32}
+              height={32}
+              loading="eager"
             />
           </div>
           <div className="flex-1 overflow-hidden">

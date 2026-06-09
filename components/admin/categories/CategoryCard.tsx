@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef, useState, useEffect } from 'react';
+import Image from 'next/image';
 import {
   FolderIcon,
   ArrowPathIcon,
@@ -62,10 +63,11 @@ export default function CategoryCard({
       {!category.parentId && (
         <div className="relative aspect-video bg-slate-100 dark:bg-slate-800 overflow-hidden">
           {hasImage ? (
-            <img
+            <Image
               src={category.imageUrl!}
               alt={category.name}
-              className="w-full h-full object-cover"
+              fill
+              className="object-cover"
               onError={() => {
                 console.warn(
                   `[CategoryCard] Image failed to load for category #${category.id}: ${category.imageUrl}. ` +

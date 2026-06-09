@@ -213,7 +213,7 @@ export default function ProductMedia({
               }`}
             >
               {img.url ? (
-                // eslint-disable-next-line @next/next/no-img-element
+                // eslint-disable-next-line @next/next/no-img-element -- fill mode unsupported here; sizes are dynamic
                 <img src={img.url} alt={`Image ${idx + 1}`} loading="lazy" className="w-full h-full object-cover" />
               ) : (
                 <div className="w-full h-full flex items-center justify-center text-slate-400">
