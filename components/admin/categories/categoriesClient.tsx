@@ -34,10 +34,16 @@ export default function CategoriesClient() {
 
   const handleDeleteCategory = useCallback(
     async (id: number) => {
+      const confirmed = window.confirm(
+        'Supprimer cette catégorie ? Cette action est irréversible.',
+      );
+      if (!confirmed) return;
+
       try {
         await removeCategory(id);
       } catch (err) {
-        console.error('Delete failed', err);
+        const message = err instanceof Error ? err.message : 'Erreur lors de la suppression';
+        setFormError(message);
       }
     },
     [removeCategory]

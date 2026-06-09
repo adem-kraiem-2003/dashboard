@@ -146,24 +146,29 @@ export default function ProductVariants({
         </div>
 
         {/* Color toggle */}
-        <label className="flex items-center gap-2 cursor-pointer select-none text-sm font-semibold text-slate-600 dark:text-slate-300">
-          <span>Produit avec couleurs</span>
+        <div className="flex items-center gap-2 select-none">
+          <span id="color-toggle-label" className="text-sm font-semibold text-slate-600 dark:text-slate-300">
+            Produit avec couleurs
+          </span>
           <button
             type="button"
             role="switch"
             aria-checked={hasColor}
+            aria-labelledby="color-toggle-label"
             onClick={() => toggleHasColor(!hasColor)}
-            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
+            className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors cursor-pointer focus:outline-none focus:ring-2 focus:ring-[#e2366a]/50 focus:ring-offset-2 ${
               hasColor ? 'bg-[#e2366a]' : 'bg-slate-300 dark:bg-slate-600'
             }`}
           >
+            <span className="sr-only">{hasColor ? 'Actif' : 'Inactif'}</span>
             <span
               className={`inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform ${
                 hasColor ? 'translate-x-6' : 'translate-x-1'
               }`}
+              aria-hidden="true"
             />
           </button>
-        </label>
+        </div>
       </div>
 
       {/* ══════════════════════════════════════════════════════════════════════
@@ -200,8 +205,8 @@ export default function ProductVariants({
                           updateGroupColorHex(group.colorHex, e.target.value)
                         }
                       }}
+                      aria-label={`Couleur hexadécimale du groupe ${group.colorName || group.colorHex}`}
                       className="h-8 w-8 rounded-lg border border-slate-300 dark:border-slate-600 cursor-pointer bg-transparent p-0.5"
-                      title="Choisir la couleur"
                     />
                     <span className="font-mono text-xs text-slate-400 hidden sm:block">
                       {group.colorHex}
@@ -214,6 +219,7 @@ export default function ProductVariants({
                     value={group.colorName}
                     onChange={(e) => updateGroupColorName(group.colorHex, e.target.value)}
                     placeholder="Nom (ex: Noir)"
+                    aria-label={`Nom de la couleur ${group.colorHex}`}
                     className="flex-1 min-w-[140px] rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-900 text-sm font-semibold px-3 py-1.5 focus:border-[#e2366a] focus:outline-none focus:ring-1 focus:ring-[#e2366a]/20"
                   />
 
@@ -228,10 +234,10 @@ export default function ProductVariants({
                   <button
                     type="button"
                     onClick={() => removeColorGroup(group.colorHex)}
-                    className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors shrink-0"
-                    title="Supprimer cette couleur et toutes ses tailles"
+                    aria-label={`Supprimer la couleur ${group.colorName || group.colorHex} et toutes ses tailles`}
+                    className="flex items-center gap-1 px-2 py-1 rounded-lg text-xs font-semibold text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 transition-colors shrink-0 focus:outline-none focus:ring-2 focus:ring-red-300"
                   >
-                    <TrashIcon className="w-3.5 h-3.5" />
+                    <TrashIcon className="w-3.5 h-3.5" aria-hidden="true" />
                     <span className="hidden sm:inline">Supprimer</span>
                   </button>
                 </div>
@@ -241,10 +247,12 @@ export default function ProductVariants({
                   <table className="w-full text-sm">
                     <thead className="border-b border-slate-100 dark:border-slate-800">
                       <tr className="text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                        <th className="px-4 py-2 text-left">Taille</th>
-                        <th className="px-4 py-2 text-center w-24">Stock</th>
-                        <th className="px-4 py-2 text-left min-w-[140px]">SKU</th>
-                        <th className="px-4 py-2 w-10"></th>
+                        <th scope="col" className="px-4 py-2 text-left">Taille</th>
+                        <th scope="col" className="px-4 py-2 text-center w-24">Stock</th>
+                        <th scope="col" className="px-4 py-2 text-left min-w-[140px]">SKU</th>
+                        <th scope="col" className="px-4 py-2 w-10">
+                          <span className="sr-only">Actions</span>
+                        </th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-slate-50 dark:divide-slate-800/50 bg-white dark:bg-slate-900">
@@ -277,6 +285,7 @@ export default function ProductVariants({
                                 min="0"
                                 value={v.stock}
                                 onChange={(e) => updateVariant(variantIdx, 'stock', e.target.value)}
+                                aria-label={`Stock — couleur ${group.colorName || group.colorHex}, taille ${v.size}`}
                                 className="w-20 mx-auto block rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 text-center text-sm px-2 py-1"
                               />
                             </td>
@@ -287,6 +296,7 @@ export default function ProductVariants({
                                 placeholder="SKU"
                                 value={v.sku ?? ''}
                                 onChange={(e) => updateVariant(variantIdx, 'sku', e.target.value)}
+                                aria-label={`SKU — couleur ${group.colorName || group.colorHex}, taille ${v.size}`}
                                 className="w-full rounded-lg border border-slate-200 dark:border-slate-700 dark:bg-slate-800 font-mono text-xs px-2 py-1"
                               />
                             </td>
@@ -295,10 +305,10 @@ export default function ProductVariants({
                               <button
                                 type="button"
                                 onClick={() => removeVariant(variantIdx)}
-                                className="text-slate-300 hover:text-red-500 transition-colors p-1 rounded"
-                                title="Supprimer cette taille"
+                                aria-label={`Supprimer la taille ${v.size} (couleur ${group.colorName || group.colorHex})`}
+                                className="text-slate-300 hover:text-red-500 transition-colors p-1 rounded focus:outline-none focus:ring-2 focus:ring-red-300"
                               >
-                                <TrashIcon className="w-4 h-4" />
+                                <TrashIcon className="w-4 h-4" aria-hidden="true" />
                               </button>
                             </td>
                           </tr>

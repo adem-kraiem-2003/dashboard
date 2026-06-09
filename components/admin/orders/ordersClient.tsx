@@ -73,18 +73,23 @@ export default function CommandeClient() {
 
       {/* Error toast for failed status updates */}
       {toastError && (
-        <div className="fixed top-4 right-4 z-50 flex items-start gap-3 max-w-sm w-full bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-800 dark:text-red-200 px-4 py-3 rounded-xl shadow-lg animate-in slide-in-from-top-2">
-          <ExclamationTriangleIcon className="w-5 h-5 mt-0.5 flex-shrink-0 text-red-600 dark:text-red-400" />
+        <div
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          className="fixed top-4 right-4 z-50 flex items-start gap-3 max-w-sm w-full bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-700 text-red-800 dark:text-red-200 px-4 py-3 rounded-xl shadow-lg animate-in slide-in-from-top-2"
+        >
+          <ExclamationTriangleIcon className="w-5 h-5 mt-0.5 flex-shrink-0 text-red-600 dark:text-red-400" aria-hidden="true" />
           <div className="flex-1 text-sm">
             <p className="font-semibold mb-0.5">Échec de la mise à jour</p>
             <p className="opacity-80">{Array.isArray(toastError) ? (toastError as string[]).join(', ') : toastError}</p>
           </div>
           <button
             onClick={() => setToastError(null)}
-            className="text-red-500 hover:text-red-700 text-lg leading-none"
-            aria-label="Fermer"
+            className="text-red-500 hover:text-red-700 text-lg leading-none focus:outline-none focus:ring-2 focus:ring-red-400 rounded"
+            aria-label="Fermer la notification d'erreur"
           >
-            ×
+            <span aria-hidden="true">×</span>
           </button>
         </div>
       )}

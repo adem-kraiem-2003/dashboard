@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { DocumentTextIcon, PhoneIcon, MapPinIcon, TagIcon, ClockIcon, TruckIcon, CheckCircleIcon, XCircleIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import type { LigneCommande } from '@/types/api.types';
+import { formatPrice, formatDate as formatDateUtil } from '@/lib/format';
 
 interface Order {
   id: string;
@@ -37,20 +38,7 @@ const STATUS_TRANSITIONS: Record<Order['status'], Order['status'][]> = {
   cancelled: [],
 };
 
-function formatDate(dateStr: string) {
-  try {
-    return new Intl.DateTimeFormat('fr-FR', {
-      day: '2-digit', month: 'long', year: 'numeric',
-      hour: '2-digit', minute: '2-digit',
-    }).format(new Date(dateStr));
-  } catch {
-    return dateStr;
-  }
-}
-
-function formatPrice(amount: number) {
-  return `${amount.toFixed(2)} DT`;
-}
+const formatDate = formatDateUtil;
 
 export default function OrderDetailPanel({ order, onStatusChange, onClose }: OrderDetailPanelProps) {
   const [updatingStatus, setUpdatingStatus] = useState(false);

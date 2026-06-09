@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { ArrowPathIcon, ExclamationCircleIcon, InboxIcon, PhotoIcon, PencilIcon, TrashIcon } from '@heroicons/react/24/outline';
 import type { Product } from '@/types/api.types';
+import { formatPrice } from '@/lib/format';
 
 interface ProductTableProps {
   products: Product[];
@@ -130,7 +131,7 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
                   </div>
                 </td>
                 <td className="px-6 py-4 text-sm">{product.category?.name ?? '—'}</td>
-                <td className="px-6 py-4 font-bold text-sm">{(product.price ?? 0).toFixed(2)} DT</td>
+                <td className="px-6 py-4 font-bold text-sm tabular-nums">{formatPrice(product.price ?? 0)}</td>
                 <td className="px-6 py-4 text-sm">{getStockLabel(product)}</td>
                 <td className="px-6 py-4">
                   <span className={`inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold ${badge.cls}`}>
@@ -150,7 +151,11 @@ export default function ProductTable({ products, loading, error, onDelete }: Pro
                     </Link>
                     <button
                       data-testid={`product-delete-${product.id}`}
-                      onClick={() => onDelete(product.id)}
+                      onClick={() => {
+                        if (window.confirm(`Supprimer "${product.name}" ? Cette action est irréversible.`)) {
+                          onDelete(product.id);
+                        }
+                      }}
                       aria-label={`Supprimer le produit ${product.name}`}
                       className="p-2 text-slate-400 hover:text-red-600 focus:text-red-600 rounded transition-colors focus:outline-none focus:ring-2 focus:ring-red-400/40"
                     >
