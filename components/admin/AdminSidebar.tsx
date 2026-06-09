@@ -51,7 +51,7 @@ export default function AdminSidebar() {
           <RectangleStackIcon className="w-5 h-5" />
         </div>
         <div className="flex flex-col">
-          <h1 className="text-slate-900 dark:text-white text-base font-bold leading-tight">Nouri Fashion</h1>
+          <span className="text-slate-900 dark:text-white text-base font-bold leading-tight">Nouri Fashion</span>
           <p className="text-slate-500 dark:text-slate-400 text-xs">Admin Console</p>
         </div>
         {/* Close button (mobile only) */}

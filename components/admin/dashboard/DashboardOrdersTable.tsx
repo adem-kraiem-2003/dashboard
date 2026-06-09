@@ -24,7 +24,7 @@ export default function DashboardOrdersTable({
     <div className="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
       <div className="p-4 md:p-6 border-b border-slate-100 dark:border-slate-800 flex flex-col sm:flex-row sm:items-center gap-3 justify-between">
         <div className="flex items-center gap-3">
-          <h4 className="text-base font-bold">Dernières Commandes</h4>
+          <h2 className="text-base font-bold">Dernières Commandes</h2>
           {search && (
             <span className="text-xs bg-[#e2366a]/10 text-[#e2366a] font-bold px-2 py-0.5 rounded-full">
               {filteredOrders.length} résultat{filteredOrders.length > 1 ? 's' : ''}

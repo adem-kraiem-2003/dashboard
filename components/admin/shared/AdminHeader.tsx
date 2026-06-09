@@ -13,9 +13,9 @@ export default function AdminHeader() {
         <div className="flex items-center gap-8">
           <div className="flex items-center gap-3 text-[#e2366a]">
             <CubeIcon className="w-8 h-8" />
-            <h2 className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">
+            <span className="text-slate-900 dark:text-white text-lg font-bold leading-tight tracking-tight">
               Admin Console
-            </h2>
+            </span>
           </div>
           <div className="hidden md:flex relative">
             <MagnifyingGlassIcon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />

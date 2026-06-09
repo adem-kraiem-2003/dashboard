@@ -72,7 +72,7 @@ export default function CategoryFormPanel({
     <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm p-6 sticky top-28">
       <div className="flex items-center gap-2 mb-6 text-slate-900 dark:text-white">
         <PlusCircleIcon className="w-5 h-5 text-[#e2366a]" />
-        <h3 className="text-lg font-bold">Ajouter une catégorie</h3>
+        <h2 className="text-lg font-bold">Ajouter une catégorie</h2>
       </div>
 
       {error && (

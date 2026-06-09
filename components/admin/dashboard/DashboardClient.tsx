@@ -58,7 +58,7 @@ export default function DashboardClient() {
 
       <div className="p-4 md:p-8 space-y-6 md:space-y-8 overflow-y-auto flex-1">
         <div>
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Tableau de Bord</h2>
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900 dark:text-white">Tableau de Bord</h1>
           <p className="text-slate-500 dark:text-slate-400">Voici un aperçu de l&apos;activité de votre boutique aujourd&apos;hui.</p>
         </div>
 

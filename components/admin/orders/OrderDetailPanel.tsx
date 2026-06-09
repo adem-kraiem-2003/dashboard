@@ -141,9 +141,9 @@ export default function OrderDetailPanel({ order, onStatusChange, onClose }: Ord
       {/* ── Lignes / Articles ────────────────────────────────────────────────── */}
       <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
         <div className="px-5 py-3 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between">
-          <h3 className="font-semibold text-slate-800 dark:text-white text-sm">
-            Articles commandes
-          </h3>
+          <h2 className="font-semibold text-slate-800 dark:text-white text-sm">
+            Articles commandés
+          </h2>
           <span className="text-xs bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-2 py-0.5 rounded-full font-medium">
             {lignes.length} article{lignes.length !== 1 ? 's' : ''}
           </span>
