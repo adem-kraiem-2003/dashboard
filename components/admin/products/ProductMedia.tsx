@@ -83,10 +83,6 @@ export default function ProductMedia({
     onImagesChange?.(images.filter((img) => img.id !== id));
   };
 
-  const triggerUpload = () => {
-    inputRef.current?.click();
-  };
-
   return (
     <section className="bg-white dark:bg-slate-900 rounded-xl p-6 shadow-sm border border-slate-200 dark:border-slate-800">
       {/* ── Header ── */}
@@ -153,7 +149,9 @@ export default function ProductMedia({
       )}
 
       {uploadError && (
-        <p className="text-xs text-red-500 mb-4">{uploadError}</p>
+        <p role="alert" aria-live="assertive" className="text-xs text-red-500 mb-4">
+          {uploadError}
+        </p>
       )}
 
       {/* ── Grid ── */}
@@ -254,39 +252,36 @@ export default function ProductMedia({
           );
         })}
 
-        {/* Upload tile */}
-        <button
-          type="button"
-          onClick={triggerUpload}
-          disabled={uploading}
-          className="aspect-square rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400 hover:border-[#e2366a] hover:text-[#e2366a] transition-all bg-slate-50 dark:bg-slate-800/50 disabled:opacity-40 disabled:cursor-not-allowed"
+        {/* Upload tile — label wrapping the file input for full keyboard accessibility */}
+        <label
+          className={`aspect-square rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 flex flex-col items-center justify-center text-slate-400 hover:border-[#e2366a] hover:text-[#e2366a] transition-all bg-slate-50 dark:bg-slate-800/50 cursor-pointer focus-within:border-[#e2366a] focus-within:text-[#e2366a] ${
+            uploading ? 'opacity-40 cursor-not-allowed pointer-events-none' : ''
+          }`}
         >
-          {uploading ? (
-            <CloudArrowUpIcon className="w-8 h-8 animate-bounce" />
-          ) : (
-            <CloudArrowUpIcon className="w-8 h-8" />
-          )}
+          <CloudArrowUpIcon className={`w-8 h-8 ${uploading ? 'animate-bounce' : ''}`} aria-hidden="true" />
           <span className="text-xs font-semibold mt-2">
             {uploading ? 'Envoi...' : hasColors && pendingColor
               ? availableColors.find((c) => c.hex === pendingColor)?.name ?? 'Upload'
-              : 'Upload'}
+              : 'Ajouter une image'}
           </span>
           {hasColors && pendingColor && (
             <span
               className="mt-1 inline-block size-3 rounded-full border border-white ring-1 ring-slate-300"
               style={{ backgroundColor: pendingColor }}
+              aria-hidden="true"
             />
           )}
-        </button>
+          <input
+            ref={inputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp"
+            className="sr-only"
+            disabled={uploading}
+            aria-label="Uploader une image produit"
+            onChange={handleFileChange}
+          />
+        </label>
       </div>
-
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/jpeg,image/png,image/webp"
-        className="hidden"
-        onChange={handleFileChange}
-      />
     </section>
   );
 }

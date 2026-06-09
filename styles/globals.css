@@ -111,9 +111,12 @@ body {
               opacity 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 15;
   pointer-events: none;
-  will-change: transform, opacity;
   opacity: 0;
   border-radius: inherit;
+}
+
+.product-card.shine-effect:hover::before {
+  will-change: transform, opacity;
 }
 
 /* Hover - GPU-composited animation */
@@ -204,9 +207,13 @@ body {
               opacity var(--shine-duration, 0.5s) cubic-bezier(0.25, 0.46, 0.45, 0.94);
   z-index: 15;
   pointer-events: none;
-  will-change: transform, opacity;
   opacity: 0;
   border-radius: inherit;
+}
+
+/* Promote to compositor layer only while actively animating */
+.shine-effect:hover::before {
+  will-change: transform, opacity;
 }
 
 /* Hover state - GPU-only animation */
@@ -262,11 +269,11 @@ body {
 @keyframes fadeUpAnimation {
   from {
     opacity: 0;
-    transform: translateY(5rem) scale(0.5);
+    transform: translateY(2.5rem);
   }
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
@@ -377,6 +384,16 @@ body {
 
 .dark .skeleton-pulse-smooth {
   background-color: #3d2d34;
+}
+
+/* Keyframes pour shimmer (utilisé par .skeleton-shimmer) */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
 }
 
 /* Keyframes pour wave */

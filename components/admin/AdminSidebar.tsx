@@ -1,7 +1,7 @@
 ﻿'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
 import { clearAuthToken } from '@/services/api/apiClient';
@@ -26,6 +26,7 @@ const navItems = [
 
 export default function AdminSidebar() {
   const pathname = usePathname();
+  const router = useRouter();
   const [mobileOpen, setMobileOpen] = useState(false);
   const hamburgerRef = useRef<HTMLButtonElement>(null);
   const mobileTrapRef = useFocusTrap<HTMLElement>(mobileOpen, hamburgerRef);
@@ -113,7 +114,7 @@ export default function AdminSidebar() {
             <p className="text-[10px] text-slate-500 truncate">Propriétaire</p>
           </div>
           <button
-            onClick={() => { clearAuthToken(); window.location.href = '/login'; }}
+            onClick={() => { clearAuthToken(); router.push('/login'); }}
             className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#e2366a]/40"
             aria-label="Se déconnecter"
           >
