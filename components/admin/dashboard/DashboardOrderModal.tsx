@@ -10,6 +10,7 @@ export type OrderStatus = 'Livré' | 'En préparation' | 'Expédié' | 'Annulé'
 export interface DashboardOrder {
   id: string;
   customer: string;
+  email: string;
   avatar: string;
   date: string;
   amount: string;
@@ -66,7 +67,7 @@ export default function DashboardOrderModal({ order, onClose, onStatusChange }: 
             </div>
             <div>
               <p className="font-bold text-sm text-slate-900 dark:text-white">{order.customer}</p>
-              <p className="text-xs text-slate-500">client@example.com</p>
+              <p className="text-xs text-slate-500">{order.email || '—'}</p>
             </div>
           </div>
           <div className="flex items-center justify-between p-3 bg-slate-50 dark:bg-slate-800 rounded-xl">

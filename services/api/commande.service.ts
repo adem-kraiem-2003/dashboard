@@ -162,11 +162,6 @@ export async function updateCommandeStatut(
   // Map frontend → backend enum here (single source of truth)
   const statut: OrderStatus = mapToStatut(frontendStatus);
 
-  console.log(
-    `[commande.service] updateCommandeStatut → id=${id}`,
-    `| in="${frontendStatus}" | out="${statut}"`,
-  );
-
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const raw = await request<any>('PATCH', `/commandes/${id}/statut`, { statut }, { auth: false });
   return mapCommande(raw);

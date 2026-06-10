@@ -6,38 +6,36 @@ import {
   createProduct,
   deleteProduct,
 } from '@/services/api/product.service';
-import type { Product, CreateProductPayload } from '@/types/api.types';
+import type { Product, CreateProductPayload, PaginationMeta } from '@/types/api.types';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
+interface UseProductsOptions {
+  page?: number;
+  limit?: number;
+  search?: string;
+}
+
 interface UseProductsReturn {
   products: Product[];
+  meta: PaginationMeta | undefined;
   loading: boolean;
   error: string | null;
-  /** Re-fetch the product list from the API */
+  removeError: string | null;
   refetch: () => Promise<void>;
-  /** Create a product and refresh the list */
   addProduct: (payload: CreateProductPayload) => Promise<Product>;
-  /** Delete a product by id and refresh the list */
   removeProduct: (id: number) => Promise<void>;
 }
 
 // ── Hook ──────────────────────────────────────────────────────────────────────
 
-/**
- * Fetches and manages the product list.
- * Provides helpers to create and delete products with automatic list refresh.
- *
- * @example
- * const { products, loading, error, addProduct, removeProduct } = useProducts();
- */
-export function useProducts(): UseProductsReturn {
+export function useProducts(options: UseProductsOptions = {}): UseProductsReturn {
+  const { page = 1, limit = 20, search } = options;
   const queryClient = useQueryClient();
 
   const { data, isLoading, error, refetch } = useQuery({
-    queryKey: ['admin-products'],
-    // showAll: true → admin sees ALL products including inactive/draft
-    queryFn: () => getProducts({ limit: 100, showAll: true }),
+    queryKey: ['admin-products', page, limit, search],
+    queryFn: () => getProducts({ page, limit, search, showAll: true }),
   });
 
   const addMutation = useMutation({
@@ -48,30 +46,38 @@ export function useProducts(): UseProductsReturn {
   const removeMutation = useMutation({
     mutationFn: deleteProduct,
     onMutate: async (id: number) => {
-      // Optimistic update
-      await queryClient.cancelQueries({ queryKey: ['admin-products'] });
-      const previous = queryClient.getQueryData<Product[]>(['admin-products']);
-      queryClient.setQueryData<Product[]>(['admin-products'], old =>
-        old ? old.filter(p => p.id !== id) : [],
+      await queryClient.cancelQueries({ queryKey: ['admin-products', page, limit, search] });
+      const previous = queryClient.getQueryData<{ data: Product[] }>(['admin-products', page, limit, search]);
+      queryClient.setQueryData<{ data: Product[]; meta: PaginationMeta } | undefined>(
+        ['admin-products', page, limit, search],
+        old => old ? { ...old, data: old.data.filter(p => p.id !== id) } : undefined,
       );
       return { previous };
     },
     onError: (_err, _id, context) => {
       if (context?.previous) {
-        queryClient.setQueryData(['admin-products'], context.previous);
+        queryClient.setQueryData(['admin-products', page, limit, search], context.previous);
       }
     },
     onSettled: () => queryClient.invalidateQueries({ queryKey: ['admin-products'] }),
   });
 
   const errorMessage = error instanceof Error ? error.message : error ? 'Une erreur inattendue est survenue.' : null;
+  const removeErrorRaw = removeMutation.error;
+  const removeError = removeErrorRaw instanceof Error
+    ? removeErrorRaw.message
+    : removeErrorRaw
+      ? 'Échec de la suppression. Le produit a été restauré.'
+      : null;
 
   return {
-    products: data ?? [],
+    products: data?.data ?? [],
+    meta: data?.meta,
     loading: isLoading,
     error: errorMessage,
+    removeError,
     refetch: async () => { await refetch(); },
-    addProduct: (payload) => addMutation.mutateAsync(payload),
-    removeProduct: (id) => removeMutation.mutateAsync(id),
+    addProduct: payload => addMutation.mutateAsync(payload),
+    removeProduct: id => removeMutation.mutateAsync(id),
   };
 }

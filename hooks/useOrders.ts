@@ -28,10 +28,8 @@ export function useOrders(): UseOrdersReturn {
   });
 
   const statusMutation = useMutation({
-    mutationFn: async ({ id, status }: { id: number; status: Order['status'] }) => {
-      console.log('[useOrders] mutation fired', { id, status });
-      return updateCommandeStatut(id, status);
-    },
+    mutationFn: ({ id, status }: { id: number; status: Order['status'] }) =>
+      updateCommandeStatut(id, status),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: ['admin-orders'] }),
     onError: (err: unknown) => {
       // Surface the error in the browser console for quick debugging
