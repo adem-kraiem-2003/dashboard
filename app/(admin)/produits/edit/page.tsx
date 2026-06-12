@@ -74,7 +74,7 @@ function EditProductClient() {
 
   // Load all products for associated products selector
   useEffect(() => {
-    getProducts({ limit: 100 }).then(setAllProducts).catch(() => {/* silently ignore */});
+    getProducts({ limit: 100 }).then(res => setAllProducts(res.data)).catch(() => {/* silently ignore */});
   }, []);
 
   // Load product if in edit mode

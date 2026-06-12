@@ -172,6 +172,19 @@ export interface PaginatedResponse<T> {
   limit: number;
 }
 
+export interface PaginationMeta {
+  totalItems: number;
+  itemCount: number;
+  itemsPerPage: number;
+  totalPages: number;
+  currentPage: number;
+}
+
+export interface PagedProducts {
+  data: Product[];
+  meta: PaginationMeta;
+}
+
 // ── Error ─────────────────────────────────────────────────────────────────────
 
 export interface ApiError {

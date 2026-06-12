@@ -7,6 +7,8 @@ import type {
   CreateProductPayload,
   UpdateProductPayload,
   PaginatedResponse,
+  PagedProducts,
+  PaginationMeta,
 } from '@/types/api.types';
 
 // ── Mappers (backend FR → frontend EN) ────────────────────────────────────────
@@ -95,24 +97,38 @@ interface GetProductsOptions {
   showAll?: boolean;
 }
 
-export async function getProducts(options: GetProductsOptions = {}): Promise<Product[]> {
+export async function getProducts(options: GetProductsOptions = {}): Promise<PagedProducts> {
   const params = new URLSearchParams();
   if (options.page) params.set('page', String(options.page));
   if (options.limit) params.set('limit', String(options.limit));
   if (options.search) params.set('search', options.search);
   if (options.categorieId) params.set('categorieId', String(options.categorieId));
   if (options.showAll) params.set('showAll', 'true');
-  
+
   const query = params.toString();
   const path = query ? `/produits?${query}` : '/produits';
 
-  const res = await request<any[] | PaginatedResponse<any>>('GET', path, undefined, {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const res = await request<any[] | { data: any[]; meta: PaginationMeta }>('GET', path, undefined, {
     auth: false,
     revalidate: 60,
     tags: ['products'],
   });
-  const raw = Array.isArray(res) ? res : res.data;
-  return raw.map(mapProduct);
+
+  if (Array.isArray(res)) {
+    return {
+      data: res.map(mapProduct),
+      meta: {
+        totalItems: res.length,
+        itemCount: res.length,
+        itemsPerPage: options.limit ?? res.length,
+        totalPages: 1,
+        currentPage: options.page ?? 1,
+      },
+    };
+  }
+
+  return { data: res.data.map(mapProduct), meta: res.meta };
 }
 
 // ── GET /produits (related products by category) ──────────────────────────────
@@ -123,7 +139,8 @@ export async function getRelatedProducts(categoryId: number, excludeId: number, 
     limit: String(limit + 1), // fetch one extra in case we need to filter out current
   });
 
-  const res = await request<any[] | PaginatedResponse<any>>('GET', `/produits?${params}`, undefined, {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const res = await request<any[] | { data: any[]; meta: PaginationMeta }>('GET', `/produits?${params}`, undefined, {
     auth: false,
     revalidate: 120,
     tags: ['products'],

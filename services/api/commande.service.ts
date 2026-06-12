@@ -99,9 +99,9 @@ export function mapCommandeToOrder(c: Commande): Order {
   return {
     id: String(c.id),
     commandeId: c.id,
-    customer: `${c.prenomClient} ${c.nomClient}`,
-    email: c.emailClient,
-    avatar: `${c.prenomClient.charAt(0)}${c.nomClient.charAt(0)}`.toUpperCase(),
+    customer: `${c.prenomClient ?? ''} ${c.nomClient ?? ''}`.trim() || 'Client inconnu',
+    email: c.emailClient ?? '',
+    avatar: `${(c.prenomClient ?? '').charAt(0)}${(c.nomClient ?? '').charAt(0)}`.toUpperCase() || '?',
     date: c.date ?? c.createdAt,
     total: c.total,
     status: mapStatut(c.statut),
