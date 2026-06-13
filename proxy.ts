@@ -41,7 +41,11 @@ export function proxy(request: NextRequest) {
     "frame-ancestors 'none'",
     'upgrade-insecure-requests',
   ].join('; ');
-  response.headers.set('Content-Security-Policy', csp);
+  // Skip strict CSP in development — Next.js HMR, error overlay, and hydration
+  // scripts don't carry nonces, so 'strict-dynamic' blocks them entirely.
+  if (isProd) {
+    response.headers.set('Content-Security-Policy', csp);
+  }
   response.headers.set('x-nonce', nonce);
   return response;
 }
