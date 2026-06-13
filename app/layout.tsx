@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { headers } from 'next/headers';
 import { Plus_Jakarta_Sans } from 'next/font/google';
 import '../styles/globals.css';
 import Providers from './providers';
@@ -15,7 +16,12 @@ export const metadata: Metadata = {
   description: 'Tableau de bord administrateur Nouri Fashion',
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  // Reading the nonce opts this layout into dynamic rendering, which allows
+  // Next.js to apply the per-request nonce to its own generated inline scripts
+  // (RSC payload, hydration chunks) so 'strict-dynamic' CSP works in production.
+  await headers();
+
   return (
     <html lang="fr" className={jakarta.variable}>
       <body
