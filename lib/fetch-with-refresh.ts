@@ -16,7 +16,12 @@ export async function fetchWithRefresh(
     credentials: 'include',
   });
 
-  if (!refreshRes.ok) return res;
+  if (!refreshRes.ok) {
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+    return res;
+  }
 
   return fetch(url, init);
 }

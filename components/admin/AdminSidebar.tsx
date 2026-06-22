@@ -5,7 +5,9 @@ import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState, useEffect, useRef } from 'react';
 import { useFocusTrap } from '@/hooks/useFocusTrap';
-import { clearAuthToken } from '@/services/api/apiClient';
+import { fetchWithRefresh } from '@/lib/fetch-with-refresh';
+
+const API_BASE = process.env.NEXT_PUBLIC_API_URL ?? '/api';
 import {
   HomeIcon,
   ArchiveBoxIcon,
@@ -118,7 +120,17 @@ export default function AdminSidebar() {
             <p className="text-[10px] text-slate-500 truncate">Propriétaire</p>
           </div>
           <button
-            onClick={() => { clearAuthToken(); router.push('/login'); }}
+            onClick={async () => {
+              try {
+                await fetchWithRefresh(`${API_BASE}/auth/logout`, {
+                  method: 'POST',
+                  credentials: 'include',
+                });
+              } catch {
+                // Proceed to login even if the server call fails
+              }
+              router.push('/login');
+            }}
             className="p-1.5 rounded-lg hover:bg-slate-200 dark:hover:bg-slate-700 transition-colors active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#e2366a]/40"
             aria-label="Se déconnecter"
           >

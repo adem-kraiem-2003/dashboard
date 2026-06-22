@@ -1,7 +1,7 @@
 'use client';
 
-import { useState, useEffect } from 'react';
-import { PlusCircleIcon } from '@heroicons/react/24/outline';
+import { useState, useEffect, useRef } from 'react';
+import { PlusCircleIcon, PhotoIcon, XMarkIcon } from '@heroicons/react/24/outline';
 import type { Category } from '@/types/api.types';
 
 interface CategoryFormPanelProps {
@@ -16,6 +16,7 @@ export interface CreateCategoryData {
   slug: string;
   parentId?: number;
   description?: string;
+  imageFile?: File;
 }
 
 function slugify(str: string): string {
@@ -39,6 +40,9 @@ export default function CategoryFormPanel({
     parentId: '',
     description: '',
   });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+  const [imagePreview, setImagePreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const [error, setError] = useState<string | null>(initialError);
 
   // Sync external error prop into local state when parent re-renders with a new error
@@ -48,6 +52,26 @@ export default function CategoryFormPanel({
 
   const handleNameChange = (name: string) => {
     setForm(f => ({ ...f, name, slug: slugify(name) }));
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.size > 7 * 1024 * 1024) {
+      setError('L\'image ne peut pas dépasser 7 Mo.');
+      if (fileInputRef.current) fileInputRef.current.value = '';
+      return;
+    }
+    setImageFile(file);
+    setImagePreview(URL.createObjectURL(file));
+    setError(null);
+  };
+
+  const clearImage = () => {
+    setImageFile(null);
+    if (imagePreview) URL.revokeObjectURL(imagePreview);
+    setImagePreview(null);
+    if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -61,8 +85,10 @@ export default function CategoryFormPanel({
         slug: form.slug,
         parentId: form.parentId ? Number(form.parentId) : undefined,
         description: form.description || undefined,
+        imageFile: imageFile ?? undefined,
       });
       setForm({ name: '', slug: '', parentId: '', description: '' });
+      clearImage();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Erreur lors de la création');
     }
@@ -155,6 +181,45 @@ export default function CategoryFormPanel({
             className="w-full px-4 py-2 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-[#e2366a] focus:border-transparent text-slate-900 dark:text-white placeholder-slate-500 transition-all resize-none"
             disabled={submitting}
           />
+        </div>
+
+        {/* Image Upload */}
+        <div>
+          <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-2">
+            Image (optionnel)
+          </label>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/jpeg,image/png,image/webp,image/gif"
+            onChange={handleImageChange}
+            className="hidden"
+            id="category-image-input"
+            disabled={submitting}
+          />
+          {imagePreview ? (
+            <div className="relative w-full h-32 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-700">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={imagePreview} alt="Aperçu" className="w-full h-full object-cover" />
+              <button
+                type="button"
+                onClick={clearImage}
+                disabled={submitting}
+                className="absolute top-1.5 right-1.5 p-1 rounded-full bg-black/60 text-white hover:bg-black/80 transition-colors"
+                aria-label="Supprimer l'image"
+              >
+                <XMarkIcon className="w-4 h-4" />
+              </button>
+            </div>
+          ) : (
+            <label
+              htmlFor="category-image-input"
+              className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-slate-200 dark:border-slate-700 rounded-lg cursor-pointer hover:border-[#e2366a] hover:bg-[#e2366a]/5 transition-colors"
+            >
+              <PhotoIcon className="w-7 h-7 text-slate-400 mb-1" />
+              <span className="text-xs text-slate-500 dark:text-slate-400">Cliquer pour ajouter une image (max 7 Mo)</span>
+            </label>
+          )}
         </div>
 
         {/* Submit Button */}

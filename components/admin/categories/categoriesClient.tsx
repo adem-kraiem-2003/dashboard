@@ -3,9 +3,10 @@
 import { useState, useCallback } from 'react';
 import { FolderIcon, StarIcon, ArrowTurnDownRightIcon, ArchiveBoxIcon, LightBulbIcon } from '@heroicons/react/24/outline';
 import { useCategories } from '@/hooks/useCategories';
+import { uploadCategoryImage } from '@/services/api/category.service';
 
 import AdminFooter from '@/components/admin/shared/AdminFooter';
-import PageHeader from '@/components/admin/shared/PageHeader';
+import AdminPageBar from '@/components/admin/shared/AdminPageBar';
 import CategoryStatsCards from '@/components/admin/categories/CategoryStatsCards';
 import CategoryListPanel from '@/components/admin/categories/CategoryListPanel';
 import CategoryFormPanel from '@/components/admin/categories/CategoryFormPanel';
@@ -21,7 +22,11 @@ export default function CategoriesClient() {
       setSubmitting(true);
       setFormError(null);
       try {
-        await addCategory(data);
+        const { imageFile, ...categoryPayload } = data;
+        const newCategory = await addCategory(categoryPayload);
+        if (imageFile) {
+          await uploadCategoryImage(imageFile, newCategory.id);
+        }
       } catch (err) {
         setFormError(err instanceof Error ? err.message : 'Erreur lors de la création');
         throw err;
@@ -84,12 +89,9 @@ export default function CategoriesClient() {
     <>
       
 
+      <AdminPageBar title="Catégories" />
       <div className="flex-1 overflow-y-auto">
         <main className="max-w-[1440px] mx-auto w-full p-4 lg:p-10">
-          <PageHeader
-            title="Catégories"
-            description="Organisez vos produits dans des catégories et sous-catégories."
-          />
 
           <div className="mb-8">
             <CategoryStatsCards stats={stats} />
