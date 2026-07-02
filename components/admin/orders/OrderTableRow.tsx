@@ -79,7 +79,7 @@ export default function OrderTableRow({ order, isSelected, onView, onEdit, onDel
             data-testid={`order-status-select-${order.id}`}
             value={order.status}
             onChange={(e) => onStatusChange(order.id, e.target.value as Order['status'])}
-            className={`text-xs font-bold px-2 py-1 rounded-full border-0 cursor-pointer focus:ring-2 focus:ring-[#e2366a] focus:outline-none ${statusStyle.badge}`}
+            className={`text-xs font-bold px-3 py-2.5 rounded-lg border-0 cursor-pointer focus:ring-2 focus:ring-[#e2366a] focus:outline-none ${statusStyle.badge}`}
           >
             {STATUS_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>{opt.label}</option>
@@ -93,14 +93,22 @@ export default function OrderTableRow({ order, isSelected, onView, onEdit, onDel
         )}
       </td>
       <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center justify-end gap-2 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+        <div className="flex items-center justify-end gap-1">
           {onEdit && (
-            <button data-testid={`order-edit-${order.id}`} onClick={() => onEdit(order.id)} className="p-2 text-slate-400 hover:text-[#e2366a] transition-colors">
+            <button
+              data-testid={`order-edit-${order.id}`}
+              onClick={() => onEdit(order.id)}
+              className="flex items-center justify-center min-w-[44px] min-h-[44px] text-slate-400 hover:text-[#e2366a] rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#e2366a]/40"
+            >
               <PencilIcon className="w-4 h-4" />
             </button>
           )}
           {onDelete && (
-            <button data-testid={`order-delete-${order.id}`} onClick={() => onDelete(order.id)} className="p-2 text-slate-400 hover:text-red-600 transition-colors">
+            <button
+              data-testid={`order-delete-${order.id}`}
+              onClick={() => onDelete(order.id)}
+              className="flex items-center justify-center min-w-[44px] min-h-[44px] text-slate-400 hover:text-red-600 rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-red-400/40"
+            >
               <TrashIcon className="w-4 h-4" />
             </button>
           )}

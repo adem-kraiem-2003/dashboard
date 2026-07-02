@@ -2,6 +2,7 @@
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:3001';
 
 const nextConfig = {
+  output: 'standalone',
   reactStrictMode: true,
   poweredByHeader: false,
 

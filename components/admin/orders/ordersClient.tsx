@@ -4,7 +4,7 @@ import { useCallback, useState, useEffect } from 'react';
 import { DocumentTextIcon, ClockIcon, TruckIcon, CheckCircleIcon, ArrowDownTrayIcon, ExclamationTriangleIcon } from '@heroicons/react/24/outline';
 
 import AdminFooter from '@/components/admin/shared/AdminFooter';
-import PageHeader from '@/components/admin/shared/PageHeader';
+import AdminPageBar from '@/components/admin/shared/AdminPageBar';
 import CommandeStatsCards from '@/components/admin/orders/CommandeStatsCards';
 import CommandeListPanel from '@/components/admin/orders/CommandeListPanel';
 import { useOrders } from '@/hooks/useOrders';
@@ -94,18 +94,17 @@ export default function CommandeClient() {
         </div>
       )}
 
+      <AdminPageBar
+        title="Commandes"
+        actions={
+          <button className="px-4 py-2 rounded-xl bg-[#e2366a] text-white font-bold text-sm shadow-lg shadow-[#e2366a]/20 hover:bg-[#e2366a]/90 transition-colors flex items-center gap-2">
+            <ArrowDownTrayIcon className="w-4 h-4" />
+            <span className="hidden sm:inline">Exporter CSV</span>
+          </button>
+        }
+      />
       <div className="flex-1 overflow-y-auto">
         <main className="max-w-[1440px] mx-auto w-full p-4 lg:p-10">
-          <PageHeader
-            title="Commandes"
-            description="Gérez et suivez toutes vos commandes clients."
-            actions={
-              <button className="px-5 py-2.5 rounded-xl bg-[#e2366a] text-white font-bold text-sm shadow-lg shadow-[#e2366a]/20 hover:bg-[#e2366a]/90 transition-colors flex items-center gap-2">
-                <ArrowDownTrayIcon className="w-5 h-5" />
-                Exporter CSV
-              </button>
-            }
-          />
 
           <div className="mb-8">
             <CommandeStatsCards stats={stats} />

@@ -8,7 +8,6 @@ import { SIZE_PRESETS } from '@/types/api.types';
 import { getProduct, createProduct, updateProduct, createProductVariant, updateProductVariant, deleteProductVariant, deleteProductImage, getProducts } from '@/services/api/product.service';
 import { getCategories } from '@/services/api/category.service';
 import type { Category } from '@/types/api.types';
-import AdminHeader from '@/components/admin/shared/AdminHeader';
 import AdminBreadcrumb from '@/components/admin/shared/AdminBreadcrumb';
 import AdminFooter from '@/components/admin/shared/AdminFooter';
 import PageHeader from '@/components/admin/shared/PageHeader';
@@ -298,8 +297,6 @@ function EditProductClient() {
 
   return (
     <>
-      <AdminHeader />
-
       {/* ── Sticky Save Bar ── */}
       {!loading && (
         <div className="shrink-0 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 px-4 lg:px-10 py-2.5 z-40">
